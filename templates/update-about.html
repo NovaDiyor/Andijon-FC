@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <main class="main-content">
+        <div class="card">
+            <div class="card-header">
+                <h4>Update About</h4>
+            </div>
+            <div class="card-body">
+                <form class="form-inline" style="align-items: center;" action="{% url 'update-about' about.id %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="text" class="col-2 form-control mb-2 mr-sm-2" value="{{ about.title }}" required>
+                    <div class="col-2 input-group mb-2 mr-sm-2">
+                        <input type="text" class="form-control" value="{{ about.text }}" placeholder="Text" required>
+                    </div>
+                    <div class="custom-file col-2" style="margin-bottom: 5px; margin-top: -3px;">
+                        <label class="custom-file-label" for="customFile"><span style="margin-right: 162px; margin-top: 3px;">Choose file</span></label>
+                        <input type="file" class="custom-file-input form-control" name="image" id="customFile">
+                    </div>
+                    <button class="btn btn-primary" style="margin-bottom: 7px; margin-left: 25px; padding: 8px 20px;" type="submit">Update</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+{% endblock %}

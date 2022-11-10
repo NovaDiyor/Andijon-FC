@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+    <main class="content">
+        <div class="card">
+            <div class="card-header">
+                <h4>Add Region</h4>
+            </div>
+            <div class="card-body">
+                <form action="{% url 'add-region' %}" method="post" style="margin-bottom: 20px;" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="input-group mb-2">
+                                <input type="text" class="form-control text-right" id="inlineFormInputGroup2" placeholder="Name">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h4>Region</h4>
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in region %}
+                            <tr>
+                                <td>{{ i.name }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+{% endblock %}

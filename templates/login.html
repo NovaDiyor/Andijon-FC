@@ -23,7 +23,7 @@
                                 <h4>Login</h4>
                             </div>
                             <div class="card-body">
-                            <form method="POST" action="{% url 'login' %}" class="needs-validation" novalidate="">
+                            <form method="POST" action="{% url 'login' %}" class="needs-validation">
                                 {% csrf_token %}
                                 <div class="form-group">
                                     <label for="username">Username</label>

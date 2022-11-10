@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block content %}
+    <main class="main-content">
+        <div class="card">
+            <div class="card-header">
+                <h4>Add About</h4>
+            </div>
+            <div class="card-body">
+                <form class="form-inline" style="align-items: center;" action="{% url 'add-about' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="text" class="col-2 form-control mb-2 mr-sm-2" name="title" placeholder="Title" required>
+                    <div class="col-2 input-group mb-2 mr-sm-2">
+                        <input type="text" class="form-control" name="text" placeholder="Text" required>
+                    </div>
+                    <div class="custom-file col-2" style="margin-bottom: 5px; margin-top: -3px;">
+                        <label class="custom-file-label" for="customFile"><span style="margin-right: 162px; margin-top: 3px;">Choose file</span></label>
+                        <input type="file" class="custom-file-input form-control" name="image" id="customFile" required>
+                    </div>
+                    <button class="btn btn-primary" style="margin-bottom: 7px; margin-left: 25px; padding: 8px 20px;" type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h4>About</h4>
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered" style="text-align:center">
+                    <thead>
+                        <tr>
+                            <th scope="col">Image</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Text</th>
+                            <th scope="col">Change</th>
+                            <th scope="col">Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in about %}
+                            <tr>
+                                <td><img src="{{ i.image.url }}" style="width: 50px; height:50px"></td>
+                                <td>{{ i.title }}</td>
+                                <td>{{ i.text }}</td>
+                                <td class="d-none d-md-table-cell"><a href="{% url 'update-about' i.id %}"><i class="align-middle" data-feather="edit-2"></i></a></td>
+                                <td class="table-action"><a href="#"><i class="align-middle" data-toggle="modal" data-target="#exampleModalCenter" data-feather="trash"></i></a></td>
+                                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalCenterTitle">Delete About</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Are you sure about deleting about
+                                            </div>
+                                            <div class="modal-footer bg-whitesmoke br">
+                                                <button type="button" class="btn btn-success">NO</button>
+                                                <button type="button" class="btn btn-danger"><a href="{% url 'delete-about' i.id %}" style="text-decoration: none; color: white;">Yes</a></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+{% endblock %}
