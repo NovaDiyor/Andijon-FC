@@ -9,6 +9,7 @@ class User(AbstractUser):
             (2, 'user')
         ), default=2)
     country = models.CharField(max_length=210)
+    number = models.IntegerField(null=True, blank=True)
 
 
 class Staff(models.Model):

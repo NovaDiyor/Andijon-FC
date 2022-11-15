@@ -85,12 +85,12 @@ def player_view(request):
 
 @login_required(login_url='sign-in')
 def fc_view(request):
-    return render(request, 'about.html', {'fc': Fc.objects.all()})
+    return render(request, 'andijon.html', {'fc': Fc.objects.all()})
 
 
 @login_required(login_url='sign-in')
 def club_view(request):
-    return render(request, 'about.html', {'club': Fc.objects.filter(status=2)})
+    return render(request, 'club.html', {'club': Fc.objects.filter(status=2)})
 
 
 @login_required(login_url='sign-in')
@@ -103,22 +103,22 @@ def profile_view(request, pk):
 
 @login_required(login_url='sign-in')
 def advertiser_view(request):
-    return render(request, 'about.html', {'advertiser': Advertiser.objects.all()})
+    return render(request, 'advertiser.html', {'advertiser': Advertiser.objects.all()})
 
 
 @login_required(login_url='sign-in')
 def news_view(request):
-    return render(request, 'about.html', {'news': News.objects.all()})
+    return render(request, 'news.html', {'news': News.objects.all()})
 
 
 @login_required(login_url='sign-in')
 def video_view(request):
-    return render(request, 'about.html', {'video': Videos.objects.all()})
+    return render(request, 'video.html', {'video': Videos.objects.all()})
 
 
 @login_required(login_url='sign-in')
 def info_view(request):
-    return render(request, 'about.html', {'info': Info.objects.all()})
+    return render(request, 'info.html', {'info': Info.objects.all()})
 
 
 @login_required(login_url='sign-in')
@@ -128,37 +128,37 @@ def about_view(request):
 
 @login_required(login_url='sign-in')
 def region_view(request):
-    return render(request, 'about.html', {'region': Region.objects.all()})
+    return render(request, 'region.html', {'region': Region.objects.all()})
 
 
 @login_required(login_url='sign-in')
 def preview_view(request):
-    return render(request, 'about.html', {'preview': Preview.objects.all()})
+    return render(request, 'preview.html', {'preview': Preview.objects.all()})
 
 
 @login_required(login_url='sign-in')
 def squad_view(request):
-    return render(request, 'about.html', {'squad': Squad.objects.all()})
+    return render(request, 'squad.html', {'squad': Squad.objects.all()})
 
 
 @login_required(login_url='sign-in')
 def line_view(request):
-    return render(request, 'about.html', {'line': Line.objects.all()})
+    return render(request, 'line.html', {'line': Line.objects.all()})
 
 
 @login_required(login_url='sign-in')
 def subs_view(request):
-    return render(request, 'about.html', {'subs': Substitute.objects.all()})
+    return render(request, 'subs.html', {'subs': Substitute.objects.all()})
 
 
 @login_required(login_url='sign-in')
 def game_view(request):
-    return render(request, 'about.html', {'game': Game.objects.all()})
+    return render(request, 'game.html', {'game': Game.objects.all()})
 
 
 @login_required(login_url='sign-in')
 def product_view(request):
-    return render(request, 'about.html', {'product': Product.objects.all()})
+    return render(request, 'product.html', {'product': Product.objects.all()})
 
 
 def add_staff(request):
@@ -320,6 +320,10 @@ def add_video(request):
         bio = request.POST.get('bio')
         date = request.POST.get('date')
         is_top = request.POST.get('is_top')
+        if is_top == 'True':
+            is_top = True
+        elif is_top is None:
+            is_top = False
         Videos.objects.create(video=video, description=bio, date=date, is_top=is_top)
     return redirect('video')
 

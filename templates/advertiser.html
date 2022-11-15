@@ -1,22 +1,24 @@
 {% extends 'base.html' %}
 {% block content %}
-    <main class="content">
+    <main class="main-content">
         <div class="container-fluid p-0">
-            <form action="{% url 'add-advertiser' %}" method="post" style="margin-bottom: 20px; display:flex; justify-content: center" enctype="multipart/form-data">
-                {% csrf_token %}
-                <div class="row">
-                    <div class="custom-file col-2" style="margin-bottom: 5px; margin-top: -3px;">
-                        <label class="custom-file-label" for="customFile"><span style="margin-right: 98px">Choose file</span></label>
-                        <input type="file" style="padding:20px 0;width:195px;right: 16px;" class="custom-file-input form-control" name="logo" id="customFile" required>
-                    </div>
-                    <div class="col-2 input-group mb-2 mr-sm-2">
-                        <input type="url" class="form-control" name="url" placeholder="Url" required>
-                    </div>
-                    <div class="col-2 col-sm-6 col-xl mt-2 d-flex">
-                        <button type="submit" class="btn btn-primary">Save</button>
-                    </div>
+            <div class="card">
+                <div class="card-body">
+                    <form action="{% url 'add-advertiser' %}" method="post" style="margin-bottom: 20px; display:flex; justify-content: center" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="custom-file col-4 mt-4">
+                                <label class="custom-file-label" for="customFile"><span>Choose file</span></label>
+                                <input type="file"  class="custom-file-input form-control" name="logo" id="customFile" required>
+                            </div>
+                            <div class="col-2 input-group mt-4  mr-sm-2">
+                                <input type="text" class="form-control" name="url" placeholder="Url" required>
+                            </div>
+                            <button class="btn btn-primary" style="margin-top: 26px; width: 70px; height: 40px;" type="submit">Save</button>
+                        </div>
+                    </form>
                 </div>
-            </form>
+            </div>
         </div>
         <div class="row">
             <div class="col-12 col-xl-12">
