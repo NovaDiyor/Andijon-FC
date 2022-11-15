@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+    <main class="main-content">
+        <div class="card">
+            <div class="card-header">
+                <h4>Update Advertiser</h4>
+            </div>
+            <div class="card-body">
+                <form class="form-inline" style="align-items: center;" action="{% url 'update-advertiser' advertiser.id %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="custom-file col-2" style="margin-bottom: 5px; margin-top: -3px;">
+                        <label class="custom-file-label" for="customFile"><span style="margin-right: 162px; margin-top: 3px;">Choose file</span></label>
+                        <input type="file" style="padding: 20px 0px 20px 0px;right: 29px;" class="custom-file-input form-control" name="logo" id="customFile">
+                    </div>
+                    <div class="col-2 input-group mb-2 mr-sm-2">
+                        <input type="url" class="form-control" name="url" value="{{ advertiser.url }}" placeholder="Url" required>
+                    </div>
+                    <button class="btn btn-primary" style="margin-bottom: 8px; margin-left: -6px; padding: 6px 20px;" type="submit">Update</button>
+                </form>
+            </div>
+        </div>
+    </main>
+{% endblock %}

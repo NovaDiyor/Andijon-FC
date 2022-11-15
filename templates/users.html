@@ -14,9 +14,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for i in advertiser %}
+                            {% for i in admins %}
                                 <tr>
-                                    <td><a href="{% url 'single' i.id %}">{{ i.username }}</a></td>
+                                    <td><a href="{% url 'profile' i.id %}">{{ i.username }}</a></td>
                                     <td>{{ i.date_joined }}</td>
                                     <td>{{ i.email }}</td>
                                     <td>{{ i.number }}</td>
@@ -29,6 +29,3 @@
         </div>
     </main>
 {% endblock %}
-
-{% block script %}
-{% endblock script %}

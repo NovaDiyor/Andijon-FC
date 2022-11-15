@@ -1,60 +1,47 @@
-﻿{% extends "base.html" %}
-{% load static %}
+{% extends "base.html" %}
 {% block content %}
-	<main class="content">
-		<div class="container-fluid p-0">
-			<h1 class="h3 mb-3" style="text-align: center;">Profile</h1>
-			<div class="row">
-				<div class="col-md-12 col-xl-12">
-					<div class="card mb-3">
-						<div class="card-header">
-							<h5 class="card-title mb-0" style="text-align: center;">User Details</h5>
-						</div>
-						<div class="card-body text-center">
-							{% if profile.image %}
-								<img src="{{ profile.image }}" alt="{{ profile.username }}" class="img-fluid rounded-circle mb-2" width="128" height="128">
-							{% else %}
-							<img src="{% static 'default-user.png' %}" alt="{{ profile.username }}" class="img-fluid rounded-circle mb-2" width="128" height="128">
-							{% endif %}
-							<h5 class="card-title mb-0">{{ profile.username }}</h5>
-							{% if profile.status == 1 %}
-							<div class="text-muted mb-2">Admin</div>
-							{% elif profile.status == 2 %}
-							<div class="text-muted mb-2">User</div>
-							{% endif %}
-						</div>
-						<hr class="my-0">
-						<div class="card-body" style="text-align: center;">
-							{% if user == profile %}
-							<h5 class="h6 card-title">About You</h5>
-							{% else %}
-							<h5 class="h6 card-title">About</h5>
-							{% endif %}
-							<ul class="list-unstyled mb-0">
-								<li class="mb-1"><span data-feather="home" class="feather-sm mr-1"></span> Lives in <a href="#">San Francisco, SA</a></li>
-
-								<li class="mb-1"><span data-feather="briefcase" class="feather-sm mr-1"></span> Works at <a href="#">GitHub</a></li>
-								<li class="mb-1"><span data-feather="map-pin" class="feather-sm mr-1"></span> From <a href="#">Boston</a></li>
-							</ul>
-						</div>
-						<hr class="my-0">
-						<div class="card-body" style="text-align: center;">
-							{% if user == profile %}
-							<h5 class="h6 card-title">Your Social Media</h5>
-							{% else %}
-							<h5 class="h6 card-title">Social Media</h5>
-							{% endif %}
-							<ul class="list-unstyled mb-0">
-								<li class="mb-1"><span class="fas fa-globe fa-fw mr-1"></span> <a href="#">staciehall.com</a></li>
-								<li class="mb-1"><span class="fab fa-twitter fa-fw mr-1"></span> <a href="#">Twitter</a></li>
-								<li class="mb-1"><span class="fab fa-facebook fa-fw mr-1"></span> <a href="#">Facebook</a></li>
-								<li class="mb-1"><span class="fab fa-instagram fa-fw mr-1"></span> <a href="#">Instagram</a></li>
-								<li class="mb-1"><span class="fab fa-linkedin fa-fw mr-1"></span> <a href="#">LinkedIn</a></li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</main>
+{% load static %}
+    <div class="main-content">
+        <section class="section">
+            <div class="section-body">
+                <div class="row mt-sm-4">
+                    <div class="col-12 col-md-12 col-lg-12">
+                        <div class="card author-box">
+                            <div class="card-body">
+                                <div class="author-box-center">
+                                    <img alt="image" src="{% static 'assets/img/user-1.png' %}" class="rounded-circle author-box-picture">
+                                    <div class="clearfix"></div>
+                                    <div class="author-box-name">
+                                        <a href="#">{{ user.username }}</a>
+                                    </div>
+                                    <div class="author-box-job">{{ user.get_status_display }}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>Personal Details</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="py-4">
+                                    <p class="clearfix">
+                                        <span class="float-left">Number</span>
+                                        <span class="float-right text-muted">{{ user.number }}</span>
+                                    </p>
+                                    <p class="clearfix">
+                                        <span class="float-left">Mail</span>
+                                        <span class="float-right text-muted">{{ user.email }}</span>
+                                    </p>
+                                    <p class="clearfix">
+                                        <span class="float-left">Data-Joined</span>
+                                        <span class="float-right text-muted">{{ user.data_joined }}</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
 {% endblock %}

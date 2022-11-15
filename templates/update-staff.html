@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <main class="main-content">
+        <div class="card">
+            <div class="card-header">
+                <h4>Update Staff</h4>
+            </div>
+            <div class="card-body">
+                <form class="form-inline" style="align-items: center;" action="{% url 'update-staff' staff.id %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group col-2" style="margin-bottom:8px">
+                        <select name="role" class="form-control select2">
+                            <option value="{{ staff.role }}">{{ staff.get_role_display }}</option>
+                            <option value="1">trainer</option>
+                            <option value="2">sub-trainer</option>
+                            <option value="3">physiotherapist</option>
+                            <option value="4">doctor</option>
+                            <option value="5">goalkeeper-trainer</option>
+                            <option value="6">admin</option>
+                        </select>
+                    </div>
+                    <input type="text" class="col-2 form-control mb-2 mr-sm-2" name="name" value="{{ staff.name }}" placeholder="Name" required>
+                    <div class="col-2 input-group mb-2 mr-sm-2">
+                        <input type="text" class="form-control" name="sur-name" value="{{ staff.sur_name }}" placeholder="Sur-Name" required>
+                    </div>
+                    <div class="custom-file col-2" style="margin-bottom: 5px; margin-top: -3px;">
+                        <label class="custom-file-label" for="customFile"><span style="margin-right: 162px; margin-top: 3px;">Choose file</span></label>
+                        <input type="file" style="padding: 20px 0px 20px 0px;right: 29px;" class="custom-file-input form-control" name="image" id="customFile">
+                    </div>
+                    <div class="form-group col-2">
+                        <input type="text" name="date" value="{{ staff.date }}" style="margin-bottom: 8px; margin-left:10px" class="form-control datepicker">
+                    </div>
+                    <button class="btn btn-primary" style="margin-bottom: 8px; margin-left: -6px; padding: 6px 20px;" type="submit">Update</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+{% endblock %}

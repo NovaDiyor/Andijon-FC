@@ -6,6 +6,12 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
     <title>Andijon-FC - Dashboard</title>
     <link rel="stylesheet" href="{% static 'assets/css/app.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/bundles/bootstrap-daterangepicker/daterangepicker.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/bundles/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/bundles/select2/dist/css/select2.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/bundles/jquery-selectric/selectric.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/bundles/bootstrap-timepicker/css/bootstrap-timepicker.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/bundles/bootstrap-tagsinput/dist/bootstrap-tagsinput.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/components.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/custom.css' %}">
@@ -33,10 +39,10 @@
                     </ul>
                 </div>
                 <ul class="navbar-nav navbar-right">
-                    <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user"> <img alt="image" src="{% static 'assets/img/user.png' %}" class="user-img-radious-style"> <span class="d-sm-none d-lg-inline-block"></span></a>
+                    <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user"> <img alt="image" src="{% static 'assets/img/user-1.png' %}" class="user-img-radious-style rounded-circle"> <span class="d-sm-none d-lg-inline-block"></span></a>
                         <div class="dropdown-menu dropdown-menu-right pullDown">
-                            <div class="dropdown-title">Hello Sarah Smith</div>
-                            <a href="profile.html" class="dropdown-item has-icon"><i class="far fa-user"></i>Profile</a>
+                            <div class="dropdown-title">Hello {{ user }}</div>
+                            <a href="{% url 'profile' user.id %}" class="dropdown-item has-icon"><i class="far fa-user"></i>Profile</a>
                             <div class="dropdown-divider"></div>
                             <a href="{% url 'logout' %}" class="dropdown-item has-icon text-danger"> <i class="fas fa-sign-out-alt"></i>Logout</a>
                         </div>
@@ -58,22 +64,22 @@
                         <li class="dropdown">
                             <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="layout"></i><span>Models</span></a>
                             <ul class="dropdown-menu">
-                                <li><a class="nav-link" href="portfolio.html">Staff</a></li>
-                                <li><a class="nav-link" href="blog.html">Players</a></li>
-                                <li><a class="nav-link" href="calendar.html">Andijon</a></li>
-                                <li><a class="nav-link" href="{% url 'about' %}">Club</a></li>
-                                <li><a class="nav-link" href="{% url 'about' %}">Advertisers</a></li>
-                                <li><a class="nav-link" href="{% url 'about' %}">News</a></li>
-                                <li><a class="nav-link" href="{% url 'about' %}">Videos</a></li>
-                                <li><a class="nav-link" href="{% url 'about' %}">Info</a></li>
+                                <li><a class="nav-link" href="{% url 'staff' %}">Staff</a></li>
+                                <li><a class="nav-link" href="{% url 'player' %}">Players</a></li>
+                                <li><a class="nav-link" href="{% url 'fc' %}">Andijon</a></li>
+                                <li><a class="nav-link" href="{% url 'club' %}">Club</a></li>
+                                <li><a class="nav-link" href="{% url 'advertiser' %}">Advertisers</a></li>
+                                <li><a class="nav-link" href="{% url 'news' %}">News</a></li>
+                                <li><a class="nav-link" href="{% url 'video' %}">Videos</a></li>
+                                <li><a class="nav-link" href="{% url 'info' %}">Info</a></li>
                                 <li><a class="nav-link" href="{% url 'about' %}">About</a></li>
-                                <li><a class="nav-link" href="{% url 'about' %}">Preview</a></li>
-                                <li><a class="nav-link" href="{% url 'about' %}">Squad</a></li>
-                                <li><a class="nav-link" href="{% url 'about' %}">Line</a></li>
-                                <li><a class="nav-link" href="{% url 'about' %}">Substitute</a></li>
-                                <li><a class="nav-link" href="{% url 'about' %}">Game</a></li>
-                                <li><a class="nav-link" href="{% url 'about' %}">Product</a></li>
-                                <li><a class="nav-link" href="{% url 'about' %}">Region</a></li>
+                                <li><a class="nav-link" href="{% url 'region' %}">Region</a></li>
+                                <li><a class="nav-link" href="{% url 'preview' %}">Preview</a></li>
+                                <li><a class="nav-link" href="{% url 'squad' %}">Squad</a></li>
+                                <li><a class="nav-link" href="{% url 'line' %}">Line</a></li>
+                                <li><a class="nav-link" href="{% url 'subs' %}">Substitute</a></li>
+                                <li><a class="nav-link" href="{% url 'game' %}">Game</a></li>
+                                <li><a class="nav-link" href="{% url 'product' %}">Product</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -89,10 +95,18 @@
         </div>
         <div class="footer-right"></div>
     </footer>
-    <script src="{% static 'assets/js/app.min.js' %}"></script>
-    <script src="{% static 'assets/bundles/apexcharts/apexcharts.min.js' %}"></script>
-    <script src="{% static 'assets/js/page/index.js' %}"></script>
-    <script src="{% static 'assets/js/scripts.js' %}"></script>
-    <script src="{% static 'assets/js/custom.js' %}"></script>
+  <script src="{% static 'assets/js/app.min.js' %}"></script>
+  <script src="{% static 'assets/bundles/cleave-js/dist/cleave.min.js' %}"></script>
+  <script src="{% static 'assets/bundles/cleave-js/dist/addons/cleave-phone.us.js' %}"></script>
+  <script src="{% static 'assets/bundles/jquery-pwstrength/jquery.pwstrength.min.js' %}"></script>
+  <script src="{% static 'assets/bundles/bootstrap-daterangepicker/daterangepicker.js' %}"></script>
+  <script src="{% static 'assets/bundles/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js' %}"></script>
+  <script src="{% static 'assets/bundles/bootstrap-timepicker/js/bootstrap-timepicker.min.js' %}"></script>
+  <script src="{% static 'assets/bundles/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js' %}"></script>
+  <script src="{% static 'assets/bundles/select2/dist/js/select2.full.min.js' %}"></script>
+  <script src="{% static 'assets/bundles/jquery-selectric/jquery.selectric.min.js' %}"></script>
+  <script src="{% static 'assets/js/page/forms-advanced-forms.js' %}"></script>
+  <script src="{% static 'assets/js/scripts.js' %}"></script>
+  <script src="{% static 'assets/js/custom.js' %}"></script>
 </body>
 </html>

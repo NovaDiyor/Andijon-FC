@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block content %}
+
+        <main class="content">
+            <div class="container-fluid p-0">
+                <form action="{% url 'add-fc' %}" method="post" style="margin-bottom: 20px; display:flex; justify-content: center" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-2 col-sm-6 col-xl mt-2 d-flex">
+                            <input type="text" name="name" placeholder="Name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control select2" name="player" multiple="">
+                                {% for i in player %}
+                                    <option value="{{ i.id }}">{{ i.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control select2" name="staff" multiple="">
+                                {% for i in staff %}
+                                    <option value="{{ i.id }}">{{ i.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group col-2" style="margin-bottom:8px">
+                            <select name="role" class="form-control select2">
+                                {% for i in stadium %}
+                                    <option value="{{ i.id }}">{{ i.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="custom-file col-2" style="margin-bottom: 5px; margin-top: -3px;">
+                            <label class="custom-file-label" for="customFile"><span style="margin-right: 98px">Choose file</span></label>
+                            <input type="file" style="padding:20px 0;width:195px;right: 16px;" class="custom-file-input form-control" name="logo" id="customFile" required>
+                        </div>
+                        <div class="col-2 col-sm-6 col-xl mt-2 d-flex">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="row">
+                <div class="col-12 col-xl-12">
+                    <div class="card">
+                        <table class="table" style="text-align: center;">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Logo</th>
+                                    <th>PLayers</th>
+                                    <th>Staff</th>
+                                    <th>Stadium</th>
+                                    <th>Update</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for i in fc %}
+                                    <tr>
+                                        <td>{{ i.name }}</td>
+                                        <td class="d-none d-md-table-cell"><a href="{% url 'update-fc' i.id %}"><i class="align-middle" data-feather="edit-2"></i></a></td>
+                                        <td>
+    										<a href="{{ url 'delete-fc' i.id }}"><button type="submit" data-toggle="modal" data-target="#sizedModalMd" data-feather="trash">Delete</button></a>
+										</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+{% endblock %}

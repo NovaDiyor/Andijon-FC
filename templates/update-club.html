@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <main class="main-content">
+        <div class="card">
+            <div class="card-header">
+                <h4>Update Club</h4>
+            </div>
+            <div class="card-body">
+                <form action="{% url 'update-club' i.id %}" method="post" style="margin-bottom: 20px; display:flex; justify-content: center" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-2 col-sm-6 col-xl mt-2 d-flex">
+                            <input type="text" value="{{ club.name }}" name="name" placeholder="Name" class="form-control" required>
+                        </div>
+                        <div class="col-2 col-sm-6 col-xl mt-2 d-flex">
+                            <input type="text" value="{{ club.trainer }}" name="trainer" placeholder="Trainer" class="form-control" required>
+                        </div>
+                        <div class="custom-file col-2" style="margin-bottom: 5px; margin-top: -3px;">
+                            <label class="custom-file-label" for="customFile"><span style="margin-right: 98px">Choose file</span></label>
+                            <input type="file" style="padding:20px 0;width:195px;right: 16px;" class="custom-file-input form-control" name="logo" id="customFile" required>
+                        </div>
+                        <div class="col-2 col-sm-6 col-xl mt-2 d-flex">
+                            <button type="submit" class="btn btn-primary">Update</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+{% endblock %}

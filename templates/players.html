@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% block content %}
+    <main class="main-content">
+        <div class="card">
+            <div class="card-header">
+                <h4>Add Player</h4>
+            </div>
+            <div class="card-body">
+                <form class="form-inline" style="align-items: center;" action="{% url 'add-player' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="col-1,5 input-group mb-2 mr-sm-2">
+                        <input type="text" class="form-control" name="name" placeholder="Name" required>
+                    </div>
+                    <div class="col-1,5 input-group mb-2 mr-sm-2" style="margin-left: 12px">
+                        <input type="text" class="form-control" name="sur-name" placeholder="Last-Name" required>
+                    </div>
+                    <div class="col-1 input-group mb-2 mr-sm-2">
+                        <select name="number" class="form-control select2">
+                            {% for i in number %}
+                                <option value="{{ i }}">{{ i }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group col-2" style="margin-bottom:8px; padding: 0 0; margin-right: -105px;">
+                        <select name="position" class="form-control select2">
+                            <option value="4">GK</option>
+                            <option value="3">CB</option>
+                            <option value="2">MD</option>
+                            <option value="1">ST</option>
+                        </select>
+                    </div>
+                    <div class="custom-file col-2" style="margin-bottom: 5px; margin-top: -3px;">
+                        <label class="custom-file-label" for="customFile"><span style="margin-right: 98px">Choose file</span></label>
+                        <input type="file" style="padding:20px 0;width:195px;right: 16px;" class="custom-file-input form-control" name="image" id="customFile" required>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <div class="custom-switches-stacked mt-2">
+                                <div style="margin-left: -45px; margin-top: -35px; margin-bottom: -30px" >
+                                    <label class="custom-switch" style="display: flex; justify-content: flex-start">
+                                        <input type="radio" name="option" value="captain" class="custom-switch-input">
+                                        <span class="custom-switch-indicator"></span>
+                                        <span class="custom-switch-description">Captain</span>
+                                    </label>
+                                    <label class="custom-switch" style="display: flex; justify-content: flex-start">
+                                        <input type="radio" name="option" value="sub_captain" class="custom-switch-input">
+                                        <span class="custom-switch-indicator"></span>
+                                        <span class="custom-switch-description">Sub-Captain</span>
+                                    </label>
+                                    <label class="custom-switch" style="display: flex; justify-content: flex-start">
+                                        <input type="radio" name="option" value="player" class="custom-switch-input" checked>
+                                        <span class="custom-switch-indicator"></span>
+                                        <span class="custom-switch-description">Regular-Player</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-1">
+                        <input type="text" name="date" style="margin-bottom: 8px; margin-left:-60px; width: 130px" class="form-control datepicker">
+                    </div>
+                    <button class="btn btn-primary" style="margin-bottom: 8px; padding: 8px 13px;" type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h4>PLayers</h4>
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered" style="text-align:center">
+                    <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Sur-Name</th>
+                            <th scope="col">Number</th>
+                            <th scope="col">Position</th>
+                            <th scope="col">Image</th>
+                            <th scope="col">Captain</th>
+                            <th scope="col">Sub-Captain</th>
+                            <th scope="col">Birth-Date</th>
+                            <th scope="col">Change</th>
+                            <th scope="col">Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in player %}
+                            <tr>
+                                <td>{{ i.first_name }}</td>
+                                <td>{{ i.last_name }}</td>
+                                <td>{{ i.number }}</td>
+                                <td>{{ i.get_position_display }}</td>
+                                <td><img src="{{ i.image.url }}" class="rounded-circle" style="width: 50px; height: 50px"></td>
+                                <td>{{ i.captain }}</td>
+                                <td>{{ i.sub_captain }}</td>
+                                <td>{{ i.birth }}</td>
+                                <td class="d-none d-md-table-cell"><a href="{% url 'update-player' i.id %}"><i class="align-middle" data-feather="edit-2"></i></a></td>
+                                <td class="table-action"><a href="{% url 'delete-player' i.id %}"><i class="align-middle" data-feather="trash"></i></a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+{% endblock %}

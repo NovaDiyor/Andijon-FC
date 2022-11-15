@@ -1,66 +1,71 @@
 {% extends 'base.html' %}
 {% block content %}
-
-        <main class="content">
-            <div class="container-fluid p-0">
-                <form action="{% url 'add-region' %}" method="post" style="margin-bottom: 20px; display:flex; justify-content: center" enctype="multipart/form-data">
+    <main class="main-content">
+        <div class="card">
+            <div class="card-header">
+                <h4>Add Staff</h4>
+            </div>
+            <div class="card-body">
+                <form class="form-inline" style="align-items: center;" action="{% url 'add-staff' %}" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <div class="row">
-                            <div class="col-2 col-sm-6 col-xl mt-2 d-flex">
-                                <input type="text" name="name" placeholder="region_name" class="form-control" required>
-                            </div>
-                            <div class="col-2 col-sm-6 col-xl mt-2 d-flex">
-                                <button type="submit" class="btn btn-primary">Save</button>
-                            </div>
+                    <div class="form-group col-2" style="margin-bottom:8px">
+                        <label style="margin-right: 10px">Role</label>
+                        <select name="role" class="form-control select2">
+                            <option value="1">trainer</option>
+                            <option value="2">sub-trainer</option>
+                            <option value="3">physiotherapist</option>
+                            <option value="4">doctor</option>
+                            <option value="5">goalkeeper-trainer</option>
+                            <option value="6">admin</option>
+                        </select>
                     </div>
+                    <input type="text" class="col-2 form-control mb-2 mr-sm-2" name="name" placeholder="Name" required>
+                    <div class="col-2 input-group mb-2 mr-sm-2">
+                        <input type="text" class="form-control" name="sur-name" placeholder="Sur-Name" required>
+                    </div>
+                    <div class="custom-file col-2" style="margin-bottom: 5px; margin-top: -3px;">
+                        <label class="custom-file-label" for="customFile"><span style="margin-right: 162px; margin-top: 3px;">Choose file</span></label>
+                        <input type="file" style="padding: 20px 0px 20px 0px;right: 29px;" class="custom-file-input form-control" name="image" id="customFile" required>
+                    </div>
+                    <div class="form-group col-2">
+                        <input type="text" name="date" style="margin-bottom: 8px; margin-left:10px" class="form-control datepicker">
+                    </div>
+                    <button class="btn btn-primary" style="margin-bottom: 8px; margin-left: -6px; padding: 6px 20px;" type="submit">Submit</button>
                 </form>
             </div>
-            <div class="row">
-                <div class="col-12 col-xl-12">
-                    <div class="card">
-                        <table class="table" style="text-align: center;">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Update</th>
-                                    <th>Delete</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for i in region %}
-                                    <tr>
-                                        <td>{{ i.name }}</td>
-                                        <td class="d-none d-md-table-cell"><a href="{% url 'update-region' i.id %}"><i class="align-middle" data-feather="edit-2"></i></a></td>
-                                        <td>
-										<a href="#"><button type="submit" data-toggle="modal" data-target="#sizedModalMd" data-feather="trash">Delete</button></a>
-										<div class="modal fade" id="sizedModalMd" tabindex="-1" role="dialog" aria-hidden="true">
-											<div class="modal-dialog modal-md" role="document">
-												<div class="modal-content">
-													<div class="modal-header">
-														<h5 class="modal-title">Delete</h5>
-														<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-														<span aria-hidden="true">&times;</span>
-														</button>
-													</div>
-													<div class="modal-body m-3">
-														<p class="mb-0">Do You Want To Delete This Region?</p>
-													</div>
-													<div class="modal-footer">
-														<button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
-														<button type="button" class="btn btn-danger"><a href="{% url 'delete-region' i.id %}" style="text-decoration: none; color: white;">Yes</a></button>
-													</div>
-												</div>
-											</div>
-										</div>
-										</td>
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h4>Staff</h4>
             </div>
-
-        </main>
-
+            <div class="card-body">
+                <table class="table table-bordered" style="text-align:center">
+                    <thead>
+                        <tr>
+                            <th scope="col">Role</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Last-Name</th>
+                            <th scope="col">Image</th>
+                            <th scope="col">Birth-Date</th>
+                            <th scope="col">Change</th>
+                            <th scope="col">Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in staff %}
+                            <tr>
+                                <td>{{ i.get_role_display }}</td>
+                                <td>{{ i.name }}</td>
+                                <td>{{ i.sur_name }}</td>
+                                <td><img src="{{ i.image.url }}" style="width: 50px; height:50px"></td>
+                                <td>{{ i.birth }}</td>
+                                <td class="d-none d-md-table-cell"><a href="{% url 'update-staff' i.id %}"><i class="align-middle" data-feather="edit-2"></i></a></td>
+                                <td class="table-action"><a href="{% url 'delete-staff' i.id %}"><i class="align-middle" data-feather="trash"></i></a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
 {% endblock %}

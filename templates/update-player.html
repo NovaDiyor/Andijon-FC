@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block content %}
+    <main class="main-content">
+        <div class="card">
+            <div class="card-header">
+                <h4>Update Player</h4>
+            </div>
+            <div class="card-body">
+                <form class="form-inline" style="align-items: center;" action="{% url 'update-player' player.id %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="text" class="col-1 form-control mb-2 mr-sm-2" name="name" value="{{ player.first_name }}" placeholder="Name" required>
+                    <div class="col-2 input-group mb-2 mr-sm-2">
+                        <input type="text" class="form-control" name="sur-name" value="{{ player.last_name }}" placeholder="Sur-Name" required>
+                    </div>
+                    <div class="custom-file col-2" style="margin-bottom: 5px; margin-top: -3px;">
+                        <label class="custom-file-label" for="customFile"><span style="margin-right: 162px; margin-top: 3px;">Choose file</span></label>
+                        <input type="file" style="padding: 20px 0px 20px 0px;right: 29px;" class="custom-file-input form-control" name="image" id="customFile">
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <div class="custom-switches-stacked mt-2">
+                                <div style="margin-left: -45px; margin-top: -35px; margin-bottom: -30px" >
+                                    <label class="custom-switch" style="display: flex; justify-content: flex-start">
+                                        <input type="radio" name="option" value="captain" class="custom-switch-input">
+                                        <span class="custom-switch-indicator"></span>
+                                        <span class="custom-switch-description">Captain</span>
+                                    </label>
+                                    <label class="custom-switch" style="display: flex; justify-content: flex-start">
+                                        <input type="radio" name="option" value="sub_captain" class="custom-switch-input">
+                                        <span class="custom-switch-indicator"></span>
+                                        <span class="custom-switch-description">Sub-Captain</span>
+                                    </label>
+                                    <label class="custom-switch" style="display: flex; justify-content: flex-start">
+                                        <input type="radio" name="option" value="player" class="custom-switch-input" checked>
+                                        <span class="custom-switch-indicator"></span>
+                                        <span class="custom-switch-description">Regular-Player</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group col-2">
+                        <input type="text" name="date" value="{{ player.date }}" style="margin-bottom: 8px; margin-left:10px" class="form-control datepicker">
+                    </div>
+                    <div class="form-group col-2" style="margin-bottom:8px">
+                        <select name="role" class="form-control select2">
+                            <option value="{{ player.position }}">{{ player.get_position_display }}</option>
+                            <option value="4">GK</option>
+                            <option value="3">CB</option>
+                            <option value="2">MD</option>
+                            <option value="1">ST</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary" style="margin-bottom: 8px; margin-left: -6px; padding: 6px 20px;" type="submit">Update</button>
+                </form>
+            </div>
+        </div>
+    </main>
+{% endblock %}
