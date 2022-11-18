@@ -16,7 +16,7 @@ class Staff(models.Model):
     status = {
         (1, 'trainer'),
         (2, 'sub-trainer'),
-        (3, 'physiotherapist'),
+        (3, 'main-analytic'),
         (4, 'doctor'),
         (5, 'goalkeeper-trainer'),
         (6, 'admin')
@@ -48,21 +48,13 @@ class Players(models.Model):
 class Passes(models.Model):
     all = models.IntegerField()
     successful = models.IntegerField()
-
-
-class Long(models.Model):
-    all = models.IntegerField()
-    successful = models.IntegerField()
-
-
-class Helps(models.Model):
-    all = models.IntegerField()
-    successful = models.IntegerField()
-
-
-class Kross(models.Model):
-    all = models.IntegerField()
-    successful = models.IntegerField()
+    percent = models.IntegerField()
+    status = models.IntegerField(choices=(
+        (1, 'passes'),
+        (2, 'long-passes'),
+        (3, 'helps'),
+        (4, 'crosses')
+    ))
 
 
 class StadiumImage(models.Model):
@@ -159,10 +151,7 @@ class Game(models.Model):
     guest_action = models.ManyToManyField(Action, related_name='guest')
     host_action = models.ManyToManyField(Action, related_name='host')
     passion = models.FloatField()
-    kross = models.ForeignKey(Kross, on_delete=models.CASCADE)
-    passes = models.ForeignKey(Passes, on_delete=models.CASCADE)
-    long_passes = models.ForeignKey(Long, on_delete=models.CASCADE)
-    helps = models.ForeignKey(Helps, on_delete=models.CASCADE)
+    passes = models.ManyToManyField(Passes)
     subs = models.ManyToManyField(Substitute, null=True, blank=True)
     mvp = models.ForeignKey(Players, on_delete=models.CASCADE)
 

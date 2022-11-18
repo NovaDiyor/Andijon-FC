@@ -1,29 +1,33 @@
 {% extends 'base.html' %}
 {% block content %}
 
-        <main class="content">
+        <main class="main-content">
             <div class="container-fluid p-0">
-                <form action="{% url 'add-news' %}" method="post" style="margin-bottom: 20px; display:flex; justify-content: center" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <div class="row">
-                        <div class="col-2 col-sm-6 col-xl mt-2 d-flex">
-                            <input type="text" name="title" placeholder="Title" class="form-control" required>
-                        </div>
-                        <div class="col-2 col-sm-6 col-xl mt-2 d-flex">
-                            <input type="text" name="text" placeholder="Text" class="form-control" required>
-                        </div>
-                        <div class="custom-file col-2" style="margin-bottom: 5px; margin-top: -3px;">
-                            <label class="custom-file-label" for="customFile"><span style="margin-right: 98px">Choose file</span></label>
-                            <input type="file" style="padding:20px 0;width:195px;right: 16px;" class="custom-file-input form-control" name="image" id="customFile" required>
-                        </div>
-                        <div class="form-group col-2">
-                        <input type="text" name="date" style="margin-bottom: 8px; margin-left:10px" class="form-control datepicker">
-                        </div>
-                        <div class="col-2 col-sm-6 col-xl mt-2 d-flex">
-                            <button type="submit" class="btn btn-primary">Save</button>
-                        </div>
+                <div class="card">
+                    <div class="card-body">
+                        <form action="{% url 'add-news' %}" method="post" style="display:flex; justify-content: center" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-2 col-sm-6 col-xl mt-2 mb-1 d-flex">
+                                    <input type="text" name="title" placeholder="Title" class="form-control" required>
+                                </div>
+                                <div class="col-2 col-sm-6 col-xl mt-2 mb-1 d-flex">
+                                    <input type="text" name="text" placeholder="Text" class="form-control" required>
+                                </div>
+                                <div class="custom-file col-2 mt-2 mb-1">
+                                    <label class="custom-file-label" for="customFile"><span>Choose file</span></label>
+                                    <input type="file"  class="custom-file-input form-control" name="image" id="customFile" required>
+                                </div>
+                                <div class="form-group col-2 mt-2 mb-1">
+                                    <input type="text" name="date" class="form-control datepicker">
+                                </div>
+                                <div class="col-2 col-sm-5 col-xl mt-2 d-flex">
+                                    <button type="submit" style="height: 43px; width:70px" class="btn btn-primary">Save</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                </form>
+                </div>
             </div>
             <div class="row">
                 <div class="col-12 col-xl-12">

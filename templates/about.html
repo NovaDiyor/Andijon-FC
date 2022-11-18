@@ -42,7 +42,7 @@
                                 <td>{{ i.title }}</td>
                                 <td>{{ i.text }}</td>
                                 <td class="d-none d-md-table-cell"><a href="{% url 'update-about' i.id %}"><i class="align-middle" data-feather="edit-2"></i></a></td>
-                                <td class="table-action"><a href="#"><i class="align-middle" data-feather="trash"></i></a></td>
+                                <td class="table-action"><a href="{% url 'delete-about' i.id %}"><i class="align-middle" data-feather="trash"></i></a></td>
                             </tr>
                         {% endfor %}
                     </tbody>

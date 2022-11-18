@@ -1,16 +1,16 @@
 {% extends 'base.html' %}
 {% block content %}
-    <main class="content">
+    <main class="main-content">
         <div class="card">
-            <div class="card-header">
-                <h4>Add Region</h4>
-            </div>
             <div class="card-body">
-                <form action="{% url 'add-region' %}" method="post" style="margin-bottom: 20px;" enctype="multipart/form-data">
-                    <div class="row">
-                        <div class="form-group">
-                            <div class="input-group mb-2">
-                                <input type="text" class="form-control text-right" id="inlineFormInputGroup2" placeholder="Name">
+                <form action="{% url 'add-region' %}" method="post" style="display: flex; justify-content: center;" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-2 col-sm-6 col-xl mt-2 d-flex">
+                                <input type="text" name="name" placeholder="Name" class="form-control" required>
+                            </div>
+                            <div class="col-2 col-sm-6 col-xl mt-2 d-flex">
+                                <button type="submit" style="height: 43px; width:70px" class="btn btn-primary">Save</button>
                             </div>
                         </div>
                     </div>
@@ -18,20 +18,23 @@
             </div>
         </div>
         <div class="card">
-            <div class="card-header">
-                <h4>Region</h4>
-            </div>
             <div class="card-body">
-                <table class="table table-bordered">
+                <table class="table table-bordered" style="text-align: center;">
                     <thead>
                         <tr>
                             <th scope="col">Name</th>
+                            <th scope="col">Update</th>
+                            <th scope="col">Delete</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for i in region %}
                             <tr>
                                 <td>{{ i.name }}</td>
+                                <td class="d-none d-md-table-cell"><a href="{% url 'update-region' i.id %}"><i class="align-middle" data-feather="edit-2"></i></a></td>
+                                <td>
+                                    <a href="{% url 'delete-region' i.id %}"><button type="submit" data-toggle="modal" data-target="#sizedModalMd" data-feather="trash">Delete</button></a>
+                                </td>
                             </tr>
                         {% endfor %}
                     </tbody>

@@ -90,9 +90,17 @@
                                 <td>{{ i.last_name }}</td>
                                 <td>{{ i.number }}</td>
                                 <td>{{ i.get_position_display }}</td>
-                                <td><img src="{{ i.image.url }}" class="rounded-circle" style="width: 50px; height: 50px"></td>
-                                <td>{{ i.captain }}</td>
-                                <td>{{ i.sub_captain }}</td>
+                                <td><img src="{{ i.image.url }}" class="rounded-circle"></td>
+                                {% if i.captain == True %}
+                                    <td><i class="material-icons">copyright</i></td>
+                                {% else %}
+                                    <td><i class="material-icons">directions_run</i></td>
+                                {% endif %}
+                                {% if i.sub_captain == True %}
+                                    <td><i class="material-icons">copyright</i></td>
+                                {% else %}
+                                    <td><i class="material-icons">person</i></td>
+                                {% endif %}
                                 <td>{{ i.birth }}</td>
                                 <td class="d-none d-md-table-cell"><a href="{% url 'update-player' i.id %}"><i class="align-middle" data-feather="edit-2"></i></a></td>
                                 <td class="table-action"><a href="{% url 'delete-player' i.id %}"><i class="align-middle" data-feather="trash"></i></a></td>

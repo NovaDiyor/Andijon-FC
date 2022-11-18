@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block content %}
+
+        <main class="main-content">
+            <div class="container-fluid p-0">
+                <div class="card">
+                    <div class="card-body">
+                        <form action="{% url 'add-size' %}" method="post" style="display:flex; justify-content: center" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-5 input-group">
+                                    <select name="size" class="form-control select2">
+                                            <option value="1">S</option>
+                                            <option value="2">M</option>
+                                            <option value="3">L</option>
+                                            <option value="4">XL</option>
+                                            <option value="5">XXL</option>
+                                            <option value="6">3XL</option>
+                                    </select>
+                                </div>
+                                <label class="custom-switch mt-2" style="padding-left:0;">
+                                    <input type="checkbox" name="available" value="True" class="custom-switch-input">
+                                    <span class="custom-switch-indicator"></span>
+                                </label>
+                                <div class="col-2 col-sm-6 col-xl mt-1 d-flex">
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-xl-12">
+                    <div class="card">
+                        <table class="table" style="text-align: center;">
+                            <thead>
+                                <tr>
+                                    <th>Size</th>
+                                    <th>Available</th>
+                                    <th>Update</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for i in size %}
+                                    <tr>
+                                        <td>{{ i.get_size_display }}</td>
+                                        <td>{{ i.available }}</td>
+                                        <td class="d-none d-md-table-cell"><a href="{% url 'update-size' i.id %}"><i class="align-middle" data-feather="edit-2"></i></a></td>
+                                        <td>
+    										<a href="{% url 'delete-size' i.id %}"><button type="submit" data-toggle="modal" data-target="#sizedModalMd" data-feather="trash">Delete</button></a>
+										</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+{% endblock %}

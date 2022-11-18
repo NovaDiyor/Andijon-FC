@@ -6,30 +6,26 @@ class PlayersSerializer(serializers.ModelSerializer):
     class Meta:
         model = Players
         fields = "__all__"
+
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = "__all__"
+
+
 class StaffSerializer(serializers.ModelSerializer):
     class Meta:
         model = Staff
         fields = "__all__"
+
+
 class PassesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Passes
         fields = "__all__"
-class LongSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Long
-        fields = "__all__"
-class HelpsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Helps
-        fields = "__all__"
-class KrossSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Kross
-        fields = "__all__"
+
+
 class FcSerializer(serializers.ModelSerializer):
     class Meta:
         model = Fc
@@ -40,6 +36,8 @@ class AdvertiserSerializer(serializers.ModelSerializer):
     class Meta:
         model = Advertiser
         fields = "__all__"
+
+
 class NewsSerializer(serializers.ModelSerializer):
     class Meta:
         model = News

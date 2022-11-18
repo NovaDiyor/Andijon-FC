@@ -85,7 +85,13 @@ def player_view(request):
 
 @login_required(login_url='sign-in')
 def fc_view(request):
-    return render(request, 'andijon.html', {'fc': Fc.objects.all()})
+    context = {
+        'fc': Fc.objects.filter(status=1),
+        'player': Players.objects.all(),
+        'staff': Staff.objects.all(),
+        'stadium': Stadium.objects.all()
+    }
+    return render(request, 'andijon.html', context)
 
 
 @login_required(login_url='sign-in')
@@ -133,7 +139,12 @@ def region_view(request):
 
 @login_required(login_url='sign-in')
 def preview_view(request):
-    return render(request, 'preview.html', {'preview': Preview.objects.all()})
+    context = {
+        'fc': Fc.objects.filter(status=1),
+        'club': Fc.objects.filter(status=2),
+        'preview': Preview.objects.all()
+    }
+    return render(request, 'preview.html', context)
 
 
 @login_required(login_url='sign-in')
@@ -158,7 +169,12 @@ def game_view(request):
 
 @login_required(login_url='sign-in')
 def product_view(request):
-    return render(request, 'product.html', {'product': Product.objects.all()})
+    context = {
+        'product': Product.objects.all(),
+        'size': Size.objects.filter(available=True),
+        'image': Images.objects.all()
+    }
+    return render(request, 'product.html', context)
 
 
 def add_staff(request):
@@ -213,9 +229,10 @@ def add_player(request):
                 image=image,
             )
             player = Players.objects.filter(captain=True)
-            if player.count() > 2:
+            if player.count() > 1:
                 p = player[0]
                 p.captain = False
+                p.sub_captain = True
                 p.save()
         except Exception as err:
             print(f'error : {err}')
@@ -223,53 +240,41 @@ def add_player(request):
 
 
 def add_passes(request):
+    context = {
+        'passes': Passes.objects.all(),
+    }
     if request.method == 'POST':
         passes = request.POST.get('passes')
         successful = request.POST.get('successful')
-        Passes.objects.create(all=passes, successful=successful)
-    return redirect('game')
-
-
-def add_long(request):
-    if request.method == 'POST':
-        passes = request.POST.get('passes')
-        successful = request.POST.get('successful')
-        Long.objects.create(all=passes, successful=successful)
-    return redirect('game')
-
-
-def add_helps(request):
-    if request.method == 'POST':
-        passes = request.POST.get('passes')
-        successful = request.POST.get('successful')
-        Helps.objects.create(all=passes, successful=successful)
-    return redirect('game')
-
-
-def add_kross(request):
-    if request.method == 'POST':
-        passes = request.POST.get('passes')
-        successful = request.POST.get('successful')
-        Kross.objects.create(all=passes, successful=successful)
-    return redirect('game')
+        status = request.POST.get('status')
+        percent = int(successful) / int(passes) * 100
+        Passes.objects.create(all=passes, successful=successful, status=status, percent=round(percent))
+        return redirect('add-passes')
+    return render(request, 'passes.html', context)
 
 
 def add_stadium_image(request):
     if request.method == 'POST':
         image = request.FILES.get('image')
-        Players.objects.create(image=image)
-    return redirect('stadium-image')
+        StadiumImage.objects.create(img=image)
+        return redirect('add-stadium-image')
+    return render(request, 'stadium-image.html', {'image': StadiumImage.objects.all()})
 
 
 def add_stadium(request):
+    context = {
+        'stadium': Stadium.objects.all(),
+        'image': StadiumImage.objects.all()
+    }
     if request.method == 'POST':
         name = request.POST.get('name')
         capacity = request.POST.get('capacity')
-        image = request.FILES.getlist('image')
-        s = Staff.objects.create(name=name, capacity=capacity)
+        image = request.POST.getlist('image')
+        s = Stadium.objects.create(name=name, capacity=capacity)
         for i in image:
             s.image.add(i)
-    return redirect('stadium')
+        return redirect('add-stadium')
+    return render(request, 'stadium.html', context)
 
 
 def add_fc(request):
@@ -278,8 +283,8 @@ def add_fc(request):
         staff = request.POST.getlist('staff')
         stadium = request.POST.get('stadium')
         name = request.POST.get('name')
-        image = request.FILES.get("image")
-        f = Fc.objects.create(stadium_id=stadium, name=name, logo=image)
+        image = request.FILES.get("logo")
+        f = Fc.objects.create(stadium_id=stadium, name=name, logo=image, status=1)
         for i in player:
             f.players.add(i)
         for x in staff:
@@ -289,10 +294,10 @@ def add_fc(request):
 
 def add_club(request):
     if request.method == 'POST':
-        logo = request.POST.get('logo')
+        logo = request.FILES.get('logo')
         name = request.POST.get('name')
         trainer = request.POST.get('trainer')
-        Fc.objects.create(logo=logo, name=name, trainer=trainer)
+        Fc.objects.create(logo=logo, name=name, trainer=trainer, status=2)
     return redirect('club')
 
 
@@ -312,6 +317,52 @@ def add_news(request):
         date = request.POST.get('date')
         News.objects.create(title=title, text=text, date=date, image=image)
     return redirect('news')
+
+
+@login_required(login_url='sign-in')
+def stadium_image(request, pk):
+    stadium = Stadium.objects.get(id=pk)
+    context = {
+        'image': stadium.image.all()
+    }
+    return render(request, 'get-image.html', context)
+
+
+@login_required(login_url='sign-in')
+def product_image(request, pk):
+    pro = Product.objects.get(id=pk)
+    context = {
+        'image': pro.image.all()
+    }
+    return render(request, 'get-product-image.html', context)
+
+
+@login_required(login_url='sign-in')
+def get_stadium(request, pk):
+    fc = Fc.objects.get(id=pk)
+    stadium = Stadium.objects.get(id=fc.stadium.id)
+    context = {
+        'stadium': stadium
+    }
+    return render(request, 'get-stadium.html', context)
+
+
+@login_required(login_url='sign-in')
+def get_player(request, pk):
+    fc = Fc.objects.get(id=pk)
+    context = {
+        'player': fc.players.all()
+    }
+    return render(request, 'get-player.html', context)
+
+
+@login_required(login_url='sign-in')
+def get_staff(request, pk):
+    fc = Fc.objects.get(id=pk)
+    context = {
+        'staff': fc.staff.all()
+    }
+    return render(request, 'get-staff.html', context)
 
 
 def add_video(request):
@@ -362,11 +413,18 @@ def add_about(request):
 
 
 def add_preview(request):
+    fc = Fc.objects.get(status=1)
     if request.method == 'POST':
+        club = request.POST.get('club')
         guest = request.POST.get('guest')
-        host = request.POST.get('host')
         date = request.POST.get('date')
         day = request.POST.get('match-day')
+        if guest == 1:
+            guest = club
+            host = fc.id
+        elif guest == 2:
+            guest = fc.id
+            host = club
         Preview.objects.create(guest_id=guest, host_id=host, date=date, day=day)
     return redirect('preview')
 
@@ -433,15 +491,21 @@ def add_size(request):
     if request.method == 'POST':
         size = request.POST.get('size')
         available = request.POST.get('available')
+        if available is None:
+            available = False
+        elif available == 'True':
+            available = True
         Size.objects.create(size=size, available=available)
-    return redirect('size')
+        return redirect('add-size')
+    return render(request, 'size.html', {'size': Size.objects.all()})
 
 
 def add_images(request):
     if request.method == 'POST':
         image = request.FILES.get('image')
         Images.objects.create(image=image)
-    return redirect('images')
+        return redirect('add-images')
+    return render(request, 'images.html', {'image': Images.objects.all()})
 
 
 def add_product(request):
@@ -451,9 +515,8 @@ def add_product(request):
         bonus = request.POST.get('bonus')
         text = request.POST.get('text')
         size = request.POST.getlist('size')
-        rating = request.POST.get('rating')
         image = request.POST.getlist('image')
-        p = Product.objects.create(name=name, price=price, bonus=bonus, text=text, rating=rating)
+        p = Product.objects.create(name=name, price=price, bonus=bonus, text=text, rating=0)
         for i in size:
             p.size.add(i)
         for x in image:
@@ -531,36 +594,15 @@ def update_player(request, pk):
 
 
 def update_passes(request, pk):
-    game = Game.objects.get(id=pk)
-    passes = game.passes
-    long = game.long
-    helps = game.helps
-    kross = game.kross
-    context = {
-        'pass': passes,
-        'long': long,
-        'help': helps,
-        'kross': kross,
-    }
+    passes = Passes.objects.get(id=pk)
     if request.method == 'POST':
         pass_all = request.POST.get('pass-all')
-        long_all = request.POST.get('long-all')
-        help_all = request.POST.get('helps-all')
-        kross_all = request.POST.get('kross-all')
         pass_success = request.POST.get('pass-success')
-        long_success = request.POST.get('long-success')
-        help_success = request.POST.get('help-success')
-        kross_success = request.POST.get('kross-success')
+        status = request.POST.get('status')
         passes.all = pass_all
-        long.all = long_all
-        helps.all = help_all
-        kross.all = kross_all
         passes.successful = pass_success
-        long.successful = long_success
-        helps.successful = help_success
-        kross.successful = kross_success
         return redirect('game')
-    return render(request, 'update-passes.html', context)
+    return render(request, 'update-passes.html', {'passes': Passes.objects.get(id=pk)})
 
 
 def update_about(request, pk):
@@ -589,7 +631,7 @@ def update_stadium_image(request, pk):
         else:
             image.img = images.img
         image.save()
-        return redirect('stadium')
+        return redirect('add-stadium-image')
     return render(request, 'update-stadium-images.html', {'image': StadiumImage.objects.get(id=pk)})
 
 
@@ -853,7 +895,7 @@ def update_size(request, pk):
         size.size = sizes
         size.available = available
         size.save()
-        return redirect('size')
+        return redirect('add-size')
     return render(request, 'update-size.html', {'size': Size.objects.get(id=pk)})
 
 
@@ -863,7 +905,7 @@ def update_image(request, pk):
         images = request.FILES.get('image')
         image.image = images
         image.save()
-        return redirect('product')
+        return redirect('add-images')
     return render(request, 'update-image.html', {'image': Images.objects.get(id=pk)})
 
 
@@ -903,43 +945,31 @@ def delete_player(request, pk):
 def delete_passes(request, pk):
     passes = Passes.objects.get(id=pk)
     passes.delete()
-    return redirect('passes')
-
-
-def delete_long(request, pk):
-    long = Long.objects.get(id=pk)
-    long.delete()
-    return redirect('long-passes')
-
-
-def delete_helps(request, pk):
-    helps = Helps.objects.get(id=pk)
-    helps.delete()
-    return redirect('helps')
-
-
-def delete_kross(request, pk):
-    kross = Kross.objects.get(id=pk)
-    kross.delete()
-    return redirect('kross')
+    return redirect('add-passes')
 
 
 def delete_image(request, pk):
     images = StadiumImage.objects.get(id=pk)
     images.delete()
-    return redirect('stadium-image')
+    return redirect('add-stadium-image')
 
 
 def delete_stadium(request, pk):
     stadium = Stadium.objects.get(id=pk)
     stadium.delete()
-    return redirect('stadium')
+    return redirect('add-stadium')
 
 
 def delete_fc(request, pk):
     fc = Fc.objects.get(id=pk)
     fc.delete()
     return redirect('fc')
+
+
+def delete_club(request, pk):
+    fc = Fc.objects.get(id=pk)
+    fc.delete()
+    return redirect('club')
 
 
 def delete_advertiser(request, pk):
@@ -1011,13 +1041,13 @@ def delete_game(request, pk):
 def delete_size(request, pk):
     size = Size.objects.get(id=pk)
     size.delete()
-    return redirect('size')
+    return redirect('add-size')
 
 
 def delete_product_image(request, pk):
     image = Images.objects.get(id=pk)
     image.delete()
-    return redirect('product-image')
+    return redirect('add-images')
 
 
 def delete_product(request, pk):

@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block content %}
+
+        <main class="main-content">
+            <div class="container-fluid p-0">
+                <div class="card">
+                    <div class="card-body">
+                        <form action="{% url 'add-preview' %}" method="post" style="display:flex; justify-content: center" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-3 input-group mt-2">
+                                    <select name="club" class="form-control select2">
+                                        {% for i in club %}
+                                        <option value="{{ i.id }}">{{ i.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-2 input-group mt-2">
+                                    <select name="guest" class="form-control select2">
+                                        <option value="1">Guest</option>
+                                        <option value="2">Host</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-3 mt-2">
+                                    <input type="text" name="date" class="form-control datepicker">
+                                </div>
+                                <div class="col-2 col-sm-6 col-xl mt-2 d-flex">
+                                    <input type="text" name="match_day" placeholder="Match-Day" class="form-control" required>
+                                </div>
+                                <div class="col-2 col-sm-6 col-xl mt-2 d-flex" style="height:40px;">
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-xl-12">
+                    <div class="card">
+                        <table class="table" style="text-align: center;">
+                            <thead>
+                                <tr>
+                                    <th>Host</th>
+                                    <th>Guest</th>
+                                    <th>Day</th>
+                                    <th>Match-Day</th>
+                                    <th>Update</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for i in preview %}
+                                    <tr>
+                                        <td>{{ i.host }}</td>
+                                        <td>{{ i.guest }}</td>
+                                        <td>{{ i.date }}</td>
+                                        <td>{{ i.match_day }}</td>
+                                        <td class="d-none d-md-table-cell"><a href="{% url 'update-preview' i.id %}"><i class="align-middle" data-feather="edit-2"></i></a></td>
+                                        <td>
+    										<a href="{% url 'delete-preview' i.id %}"><button type="submit" data-toggle="modal" data-target="#sizedModalMd" data-feather="trash">Delete</button></a>
+										</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+{% endblock %}

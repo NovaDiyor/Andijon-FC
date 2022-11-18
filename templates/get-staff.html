@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+
+        <main class="main-content">
+            <div class="card-body">
+                <table class="table table-bordered" style="text-align:center">
+                    <thead>
+                        <tr>
+                            <th scope="col">Role</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Last-Name</th>
+                            <th scope="col">Image</th>
+                            <th scope="col">Birth-Date</th>
+                            <th scope="col">Change</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in staff %}
+                            <tr>
+                                <td>{{ i.get_role_display }}</td>
+                                <td>{{ i.name }}</td>
+                                <td>{{ i.sur_name }}</td>
+                                <td><img src="{{ i.image.url }}"></td>
+                                <td>{{ i.birth }}</td>
+                                <td class="d-none d-md-table-cell"><a href="{% url 'update-staff' i.id %}"><i class="align-middle" data-feather="edit-2"></i></a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </main>
+
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block content %}
+
+        <main class="main-content">
+            <div class="container-fluid p-0">
+                <div class="card">
+                    <div class="card-body">
+                        <form action="{% url 'add-passes' %}" method="post" style="margin-bottom: 20px; display:flex; justify-content: center" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-2 col-sm-6 col-xl mt-2 d-flex">
+                                    <input type="number" name="passes" placeholder="All-Passes" class="form-control" required>
+                                </div>
+                                <div class="col-2 col-sm-6 col-xl mt-2 d-flex">
+                                    <input type="number" name="successful" placeholder="Success-Passes" class="form-control" required>
+                                </div>
+                                <div class="col-3 input-group mt-2 mr-sm-2">
+                                    <select name="status" class="form-control select2">
+                                        <option value="1">Passes</option>
+                                        <option value="2">Long-Passes</option>
+                                        <option value="3">Helps</option>
+                                        <option value="4">Crosses</option>
+                                    </select>
+                                </div>
+                                <div class="col-2 col-sm-6 col-xl mt-2 d-flex">
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-xl-12">
+                    <div class="card">
+                        <table class="table" style="text-align: center;">
+                            <thead>
+                                <tr>
+                                    <th>All</th>
+                                    <th>Successful</th>
+                                    <th>Successful-Percent</th>
+                                    <th>Passes</th>
+                                    <th>Update</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for i in passes %}
+                                    <tr>
+                                        <td>{{ i.all }}</td>
+                                        <td>{{ i.successful }}</td>
+                                        <td>{{ i.percent }}%</td>
+                                        <td>{{ i.get_status_display }}</td>
+                                        <td class="d-none d-md-table-cell"><a href="{% url 'update-passes' i.id %}"><i class="align-middle" data-feather="edit-2"></i></a></td>
+                                        <td>
+    										<a href="{% url 'delete-passes' i.id %}"><button type="submit" data-toggle="modal" data-target="#sizedModalMd" data-feather="trash">Delete</button></a>
+										</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+
+        <main class="main-content">
+            <div class="row">
+                <div class="col-12 col-xl-12">
+                    <div class="card">
+                        <table class="table" style="text-align: center;">
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Update</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for i in image %}
+                                    <tr>
+                                        <td><img src="{{ i.image.url }}" class="rounded-circle" style="width: 50px; height: 50px"></td>
+                                        <td class="d-none d-md-table-cell"><a href="{% url 'update-image' i.id %}"><i class="align-middle" data-feather="edit-2"></i></a></td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+{% endblock %}

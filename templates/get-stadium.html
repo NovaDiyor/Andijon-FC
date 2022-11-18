@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+
+        <main class="main-content">
+            <div class="row">
+                <div class="col-12 col-xl-12">
+                    <div class="card">
+                        <table class="table" style="text-align: center;">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Capacity</th>
+                                    <th>Images</th>
+                                    <th>Update</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{ stadium.name }}</td>
+                                    <td>{{ stadium.capacity }}</td>
+                                    <td><a href="{% url 'stadium-image' stadium.id %}">Images</a></td>
+                                    <td class="d-none d-md-table-cell"><a href="{% url 'update-stadium' stadium.id %}"><i class="align-middle" data-feather="edit-2"></i></a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+{% endblock %}

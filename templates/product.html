@@ -1,26 +1,49 @@
 {% extends 'base.html' %}
 {% block content %}
 
-        <main class="content">
+        <main class="main-content">
             <div class="container-fluid p-0">
-                <form action="{% url 'add-club' %}" method="post" style="margin-bottom: 20px; display:flex; justify-content: center" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <div class="row">
-                        <div class="col-2 col-sm-6 col-xl mt-2 d-flex">
-                            <input type="text" name="name" placeholder="Name" class="form-control" required>
-                        </div>
-                        <div class="col-2 col-sm-6 col-xl mt-2 d-flex">
-                            <input type="text" name="trainer" placeholder="Trainer" class="form-control" required>
-                        </div>
-                        <div class="custom-file col-2" style="margin-bottom: 5px; margin-top: -3px;">
-                            <label class="custom-file-label" for="customFile"><span style="margin-right: 98px">Choose file</span></label>
-                            <input type="file" style="padding:20px 0;width:195px;right: 16px;" class="custom-file-input form-control" name="logo" id="customFile" required>
-                        </div>
-                        <div class="col-2 col-sm-6 col-xl mt-2 d-flex">
-                            <button type="submit" class="btn btn-primary">Save</button>
-                        </div>
+                <div class="card">
+                    <div class="card-body">
+                        <form action="{% url 'add-product' %}" method="post" style="display:flex; justify-content: center" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-2 col-sm-6 col-xl mt-2 d-flex">
+                                    <input type="text" name="name" placeholder="Name" class="form-control" required>
+                                </div>
+                                <div class="col-2 col-sm-6 col-xl mt-2 d-flex">
+                                    <input type="number" name="price" placeholder="Price" class="form-control" required>
+                                </div>
+                                <div class="col-2 col-sm-6 col-xl mt-2 d-flex">
+                                    <input type="number" name="bonus" placeholder="Bonus" class="form-control" required>
+                                </div>
+                                <div class="col-2 col-sm-6 col-xl mt-2 d-flex">
+                                    <input type="text" name="text" placeholder="Text" class="form-control" required>
+                                </div>
+                                <div class="col-1 input-group mt-2 mr-4">
+                                    <select name="size" class="form-control select2">
+                                        {% for i in size %}
+                                            <option value="{{ i.id }}">{{ i.get_size_display }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="row gutters-sm">
+                                    {% for i in image %}
+                                        <div class="col-6 col-sm-4 ">
+                                            <label class="imagecheck">
+                                                <input name="image" type="checkbox" value="{{ i.id }}" class="imagecheck-input" />
+                                                <span class="imagecheck-figure"><img src="{{ i.image.url }}" style="width:175px; height:50px; margin-top:-20px" alt="" class="imagecheck-image"></span>
+                                            </label>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                <div class="col-2 col-sm-6 col-xl mt-2 d-flex">
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                </form>
+                </div>
             </div>
             <div class="row">
                 <div class="col-12 col-xl-12">
@@ -29,22 +52,26 @@
                             <thead>
                                 <tr>
                                     <th>Name</th>
-                                    <th>Coach</th>
-                                    <th>Logo</th>
+                                    <th>Price</th>
+                                    <th>Bonus</th>
+                                    <th>Bio</th>
+                                    <th>Size</th>
+                                    <th>Image</th>
                                     <th>Update</th>
                                     <th>Delete</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for i in club %}
+                                {% for i in product %}
                                     <tr>
                                         <td>{{ i.name }}</td>
-                                        <td>{{ i.trainer }}</td>
-                                        <td><img src="{{ i.logo.url }}" class="rounded-circle" style="width: 50px; height: 50px"></td>
-                                        <td class="d-none d-md-table-cell"><a href="{% url 'update-club' i.id %}"><i class="align-middle" data-feather="edit-2"></i></a></td>
-                                        <td>
-    										<a href="{% url 'delete-fc' i.id %}"><button type="submit" data-toggle="modal" data-target="#sizedModalMd" data-feather="trash">Delete</button></a>
-										</td>
+                                        <td>{{ i.price }}</td>
+                                        <td>{{ i.bonus }}</td>
+                                        <td>{{ i.text }}</td>
+                                        <td>{{ i.size.first.get_size_display }}</td>
+                                        <td><a href="{% url 'product-image' i.id %}">Images</a></td>
+                                        <td class="d-none d-md-table-cell"><a href="{% url 'update-product' i.id %}"><i class="align-middle" data-feather="edit-2"></i></a></td>
+                                        <td><a href="{% url 'delete-product' i.id %}"><button type="submit" data-toggle="modal" data-target="#sizedModalMd" data-feather="trash">Delete</button></a></td>
                                     </tr>
                                 {% endfor %}
                             </tbody>

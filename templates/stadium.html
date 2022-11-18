@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block content %}
+
+        <main class="main-content">
+            <div class="container-fluid p-0">
+                <div class="card">
+                    <div class="card-body">
+                        <form action="{% url 'add-stadium' %}" method="post" style="display:flex; justify-content: center" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-2 col-sm-6 col-xl mt-2 d-flex">
+                                    <input type="text" name="name" placeholder="Name" class="form-control" required>
+                                </div>
+                                <div class="col-2 col-sm-6 col-xl mt-2 d-flex">
+                                    <input type="number" name="capacity" placeholder="Capacity" class="form-control" required>
+                                </div>
+                                <div class="row gutters-sm">
+                                    {% for i in image %}
+                                        <div class="col-6 col-sm-4 ">
+                                            <label class="imagecheck">
+                                                <input name="image" type="checkbox" value="{{ i.id }}" class="imagecheck-input" />
+                                                <span class="imagecheck-figure"><img src="{{ i.img.url }}" style="width:100px; height:50px; margin-top:-20px" alt="" class="imagecheck-image"></span>
+                                            </label>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                <div class="col-2 col-sm-6 col-xl mt-2 d-flex">
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-xl-12">
+                    <div class="card">
+                        <table class="table" style="text-align: center;">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Capacity</th>
+                                    <th>Images</th>
+                                    <th>Update</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for i in stadium %}
+                                    <tr>
+                                        <td>{{ i.name }}</td>
+                                        <td>{{ i.capacity }}</td>
+                                        <td><a href="{% url 'stadium-image' i.id %}">Images</a></td>
+                                        <td class="d-none d-md-table-cell"><a href="{% url 'update-stadium' i.id %}"><i class="align-middle" data-feather="edit-2"></i></a></td>
+                                        <td><a href="{% url 'delete-stadium' i.id %}"><button type="submit" data-toggle="modal" data-target="#sizedModalMd" data-feather="trash">Delete</button></a>
+										</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+{% endblock %}

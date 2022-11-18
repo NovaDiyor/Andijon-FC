@@ -62,23 +62,48 @@
                             <a href="{% url 'dashboard' %}" class="nav-link"><i data-feather="monitor"></i><span>Dashboard</span></a>
                         </li>
                         <li class="dropdown">
-                            <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="layout"></i><span>Models</span></a>
+                            <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="home"></i><span>Our Team</span></a>
                             <ul class="dropdown-menu">
                                 <li><a class="nav-link" href="{% url 'staff' %}">Staff</a></li>
                                 <li><a class="nav-link" href="{% url 'player' %}">Players</a></li>
+                                <li><a class="nav-link" href="{% url 'add-stadium' %}">Stadium</a></li>
                                 <li><a class="nav-link" href="{% url 'fc' %}">Andijon</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="tv"></i><span>Game</span></a>
+                            <ul class="dropdown-menu">
                                 <li><a class="nav-link" href="{% url 'club' %}">Club</a></li>
-                                <li><a class="nav-link" href="{% url 'advertiser' %}">Advertisers</a></li>
-                                <li><a class="nav-link" href="{% url 'news' %}">News</a></li>
-                                <li><a class="nav-link" href="{% url 'video' %}">Videos</a></li>
-                                <li><a class="nav-link" href="{% url 'info' %}">Info</a></li>
-                                <li><a class="nav-link" href="{% url 'about' %}">About</a></li>
-                                <li><a class="nav-link" href="{% url 'region' %}">Region</a></li>
                                 <li><a class="nav-link" href="{% url 'preview' %}">Preview</a></li>
                                 <li><a class="nav-link" href="{% url 'squad' %}">Squad</a></li>
                                 <li><a class="nav-link" href="{% url 'line' %}">Line</a></li>
                                 <li><a class="nav-link" href="{% url 'subs' %}">Substitute</a></li>
                                 <li><a class="nav-link" href="{% url 'game' %}">Game</a></li>
+                                <li><a class="nav-link" href="{% url 'add-passes' %}">Passes</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="layout"></i><span>Models</span></a>
+                            <ul class="dropdown-menu">
+                                <li><a class="nav-link" href="{% url 'news' %}">News</a></li>
+                                <li><a class="nav-link" href="{% url 'info' %}">Info</a></li>
+                                <li><a class="nav-link" href="{% url 'about' %}">About</a></li>
+                                <li><a class="nav-link" href="{% url 'region' %}">Region</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="image"></i><span>Images</span></a>
+                            <ul class="dropdown-menu">
+                                <li><a class="nav-link" href="{% url 'advertiser' %}">Advertisers</a></li>
+                                <li><a class="nav-link" href="{% url 'add-stadium-image' %}">Stadium-Image</a></li>
+                                <li><a class="nav-link" href="{% url 'video' %}">Videos</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="shopping-cart"></i><span>Product</span></a>
+                            <ul class="dropdown-menu">
+                                <li><a class="nav-link" href="{% url 'add-size' %}">Size</a></li>
+                                <li><a class="nav-link" href="{% url 'add-images' %}">Images</a></li>
                                 <li><a class="nav-link" href="{% url 'product' %}">Product</a></li>
                             </ul>
                         </li>
