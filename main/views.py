@@ -32,7 +32,8 @@ def for_login(request):
                     return redirect('dashboard')
                 else:
                     return redirect('sign-in')
-            return redirect('sign-in')
+            else:
+                return redirect('sign-in')
         else:
             return redirect('sign-in')
     else:
@@ -562,6 +563,13 @@ def update_staff(request, pk):
 
 def update_player(request, pk):
     player = Players.objects.get(id=pk)
+    pl = []
+    player = Players.objects.all()
+    for i in range(1, 100):
+        pl.append(i)
+    for i in player:
+        if i.number in pl:
+            pl.remove(i.number)
     if request.method == 'POST':
         name = request.POST.get('name')
         sur_name = request.POST.get('sur-name')
@@ -590,7 +598,7 @@ def update_player(request, pk):
             player.image = image
         player.save()
         return redirect('player')
-    return render(request, 'update-player.html', {'player': Players.objects.get(id=pk)})
+    return render(request, 'update-player.html', {'player': Players.objects.get(id=pk), 'number': pl})
 
 
 def update_passes(request, pk):
@@ -601,6 +609,7 @@ def update_passes(request, pk):
         status = request.POST.get('status')
         passes.all = pass_all
         passes.successful = pass_success
+        passes.status = status
         return redirect('game')
     return render(request, 'update-passes.html', {'passes': Passes.objects.get(id=pk)})
 

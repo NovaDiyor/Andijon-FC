@@ -8,13 +8,21 @@
             <div class="card-body">
                 <form class="form-inline" style="align-items: center;" action="{% url 'update-player' player.id %}" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <input type="text" class="col-1 form-control mb-2 mr-sm-2" name="name" value="{{ player.first_name }}" placeholder="Name" required>
-                    <div class="col-2 input-group mb-2 mr-sm-2">
+                    <input type="text" class="col-1 form-control mt-2 mr-sm-2" name="name" value="{{ player.first_name }}" placeholder="Name" required>
+                    <div class="col-2 input-group mt-2 mr-sm-2">
                         <input type="text" class="form-control" name="sur-name" value="{{ player.last_name }}" placeholder="Sur-Name" required>
                     </div>
-                    <div class="custom-file col-2" style="margin-bottom: 5px; margin-top: -3px;">
+                    <div class="custom-file col-2 mt-2">
                         <label class="custom-file-label" for="customFile"><span style="margin-right: 162px; margin-top: 3px;">Choose file</span></label>
                         <input type="file" style="padding: 20px 0px 20px 0px;right: 29px;" class="custom-file-input form-control" name="image" id="customFile">
+                    </div>
+                    <div class="col-1 input-group mt-2">
+                        <select name="number" class="form-control select2">
+                            <option value="{{ player.number }}">{{ player.number }}</option>
+                            {% for i in number %}
+                                <option value="{{ i }}">{{ i }}</option>
+                            {% endfor %}
+                        </select>
                     </div>
                     <div class="card-body">
                         <div class="form-group">
@@ -40,10 +48,10 @@
                         </div>
                     </div>
                     
-                    <div class="form-group col-2">
-                        <input type="text" name="date" value="{{ player.date }}" style="margin-bottom: 8px; margin-left:10px" class="form-control datepicker">
+                    <div class="form-group col-2 mt-2">
+                        <input type="text" name="date" value="{{ player.date }}" style="margin-bottom: 8px; margin-left:-65px" class="form-control datepicker">
                     </div>
-                    <div class="form-group col-2" style="margin-bottom:8px">
+                    <div class="form-group col-2" style="margin-left:-85px">
                         <select name="role" class="form-control select2">
                             <option value="{{ player.position }}">{{ player.get_position_display }}</option>
                             <option value="4">GK</option>
