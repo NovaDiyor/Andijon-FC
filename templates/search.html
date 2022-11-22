@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+    <main class="main-content">
+        <div class="row">
+            <div class="col-12 col-xl-12">
+                <div class="card">
+                    <table class="table">
+                        {% if player %}
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Single</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for i in player %}
+                                    <tr>
+                                        <td>{{ i.first_name }}</td>
+                                        <td><a href="{% url 'get-pl' i.id %}">Single</a></td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        {% elif fc %}
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Single</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for i in fc %}
+                                    <tr>
+                                        <td>{{ i.name }}</td>
+                                        <td><a href="{% url 'get-fc' i.id %}">Single</a></td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        {% elif pro %}
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Single</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for i in pro %}
+                                    <tr>
+                                        <td>{{ i.name }}</td>
+                                        <td><a href="{% url 'get-pro' i.id %}">Single</a></td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        {% else %}
+                            <div class="card-header">
+                                <h1>Name is not Found</h1>
+                            </div>
+                        {% endif %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

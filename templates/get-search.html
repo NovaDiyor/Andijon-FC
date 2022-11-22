@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+    <main class="main-content">
+        <div class="row">
+            <div class="col-12 col-xl-12">
+                <div class="card">
+                    <table class="table">
+                        {% if player is not None %}
+                            <thead style="text-align:center;">
+                                <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Sur-Name</th>
+                                    <th scope="col">Number</th>
+                                    <th scope="col">Position</th>
+                                    <th scope="col">Image</th>
+                                    <th scope="col">Captain</th>
+                                    <th scope="col">Sub-Captain</th>
+                                    <th scope="col">Birth-Date</th>
+                                    <th scope="col">Change</th>
+                                    <th scope="col">Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody style="text-align:center;">
+                                <tr>
+                                    <td>{{ player.first_name }}</td>
+                                    <td>{{ player.last_name }}</td>
+                                    <td>{{ player.number }}</td>
+                                    <td>{{ player.get_position_display }}</td>
+                                    <td><img src="{{ player.image.url }}" style="width: 70px: height:70px" class="rounded-circle"></td>
+                                    {% if player.captain == True %}
+                                        <td><i class="material-icons">copyright</i></td>
+                                    {% else %}
+                                        <td><i class="material-icons">directions_run</i></td>
+                                    {% endif %}
+                                    {% if player.sub_captain == True %}
+                                        <td><i class="material-icons">copyright</i></td>
+                                    {% else %}
+                                        <td><i class="material-icons">person</i></td>
+                                    {% endif %}
+                                    <td>{{ player.birth }}</td>
+                                    <td class="d-none d-md-table-cell"><a href="{% url 'update-player' player.id %}"><i class="align-middle" data-feather="edit-2"></i></a></td>
+                                    <td class="table-action"><a href="{% url 'delete-player' player.id %}"><i class="align-middle" data-feather="trash"></i></a></td>
+                                </tr>
+                            </tbody>
+                        {% elif fc is not None %}
+                            <thead style="text-align:center;">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Logo</th>
+                                    <th>Trainer</th>
+                                    <th>Update</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody style="text-align:center;">
+                                <tr>
+                                    <td>{{ fc.name }}</td>
+                                    <td><img src="{{ fc.logo.url }}" class="rounded-circle" style="width: 50px; height: 50px"></td>
+                                    <td>{{ fc.name }}</td>
+                                    <td class="d-none d-md-table-cell"><a href="{% url 'update-fc' fc.id %}"><i class="align-middle" data-feather="edit-2"></i></a></td>
+                                    <td><a href="{% url 'delete-fc' fc.id %}"><button type="submit" data-feather="trash">Delete</button></a></td>
+                                </tr>
+                            </tbody>
+                        {% elif pro is not None %}
+                            <thead style="text-align:center;">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                    <th>Bonus</th>
+                                    <th>Bio</th>
+                                    <th>Size</th>
+                                    <th>Image</th>
+                                    <th>Update</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody style="text-align:center;">
+                                <tr>
+                                    <td>{{ pro.name }}</td>
+                                    <td>{{ pro.price }}</td>
+                                    <td>{{ pro.bonus }}</td>
+                                    <td>{{ pro.text }}</td>
+                                    <td>{{ pro.size.first.get_size_display }}</td>
+                                    <td><a href="{% url 'product-image' pro.id %}">Images</a></td>
+                                    <td class="d-none d-md-table-cell"><a href="{% url 'update-product' pro.id %}"><i class="align-middle" data-feather="edit-2"></i></a></td>
+                                    <td><a href="{% url 'delete-product' pro.id %}"><button type="submit" data-toggle="modal" data-target="#sizedModalMd" data-feather="trash">Delete</button></a></td>
+                                </tr>
+                            </tbody>
+                        {% endif %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

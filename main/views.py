@@ -134,6 +134,46 @@ def about_view(request):
 
 
 @login_required(login_url='sign-in')
+def search(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        player = Players.objects.filter(first_name__icontains=name)
+        fc = Fc.objects.filter(name__icontains=name)
+        pro = Product.objects.filter(name__icontains=name)
+        context = {
+            'fc': fc,
+            'pro': pro,
+            'player': player
+        }
+    return render(request, 'search.html', context)
+
+
+@login_required(login_url='sign-in')
+def get_pl(request, pk):
+    pl = Players.objects.get(id=pk)
+    context = {
+        'player': pl
+    }
+    return render(request, 'get-search.html', context)
+
+
+@login_required(login_url='sign-in')
+def get_fc(request, pk):
+    context = {
+        'fc': Fc.objects.get(id=pk)
+    }
+    return render(request, 'get-search.html', context)
+
+
+@login_required(login_url='sign-in')
+def get_pro(request, pk):
+    context = {
+        'pro': Product.objects.get(id=pk)
+    }
+    return render(request, 'get-search.html', context)
+
+
+@login_required(login_url='sign-in')
 def region_view(request):
     return render(request, 'region.html', {'region': Region.objects.all()})
 
@@ -150,7 +190,13 @@ def preview_view(request):
 
 @login_required(login_url='sign-in')
 def squad_view(request):
-    return render(request, 'squad.html', {'squad': Squad.objects.all()})
+    fc = Fc.objects.get(status=1)
+    context = {
+        'preview': Preview.objects.all(),
+        'team': fc.players.all(),
+        'squad': Squad.objects.all()
+    }
+    return render(request, 'squad.html', context)
 
 
 @login_required(login_url='sign-in')
@@ -440,6 +486,25 @@ def add_squad(request):
     return redirect('squad')
 
 
+@login_required(login_url='sign-in')
+def get_squad(request, pk):
+    squad = Squad.objects.get(id=pk)
+    context = {
+        'player': squad.team.all()
+    }
+    return render(request, 'get-squad.html', context)
+
+
+@login_required(login_url='sign-in')
+def get_preview(request, pk):
+    squad = Squad.objects.get(id=pk)
+    preview = Preview.objects.get(id=squad.preview.id)
+    context = {
+        'preview': preview
+    }
+    return render(request, 'get-preview.html', context)
+
+
 def add_line(request):
     if request.method == 'POST':
         team = request.POST.getlist('team')
@@ -564,10 +629,10 @@ def update_staff(request, pk):
 def update_player(request, pk):
     player = Players.objects.get(id=pk)
     pl = []
-    player = Players.objects.all()
+    players = Players.objects.all()
     for i in range(1, 100):
         pl.append(i)
-    for i in player:
+    for i in players:
         if i.number in pl:
             pl.remove(i.number)
     if request.method == 'POST':
