@@ -1184,6 +1184,12 @@ def delete_product(request, pk):
     return redirect('product')
 
 
+def delete_action(request, pk):
+    action = Action.objects.get(id=pk)
+    action.delete()
+    return redirect('add-action')
+
+
 def delete_wishlist(request, pk):
     wish = Wishlist.objects.get(id=pk)
     wish.delete()

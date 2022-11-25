@@ -139,7 +139,7 @@ class Substitute(models.Model):
 
 class Action(models.Model):
     which = models.ForeignKey(Fc, on_delete=models.CASCADE)
-    who = models.ForeignKey(Players, on_delete=models.CASCADE)
+    who = models.ForeignKey(Players, on_delete=models.CASCADE, null=True, blank=True)
     club_who = models.CharField(max_length=215)
     action = models.IntegerField(choices=((1, 'yellow-card'), (2, 'red-card'), (3, 'goal')))
     minute = models.IntegerField()
