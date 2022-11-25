@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+
+        <main class="main-content">
+            <div class="card-body">
+                <table class="table table-bordered" style="text-align:center">
+                    <thead>
+                        <tr>
+                            <th scope="col">Guest</th>
+                            <th scope="col">Host</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Match-day</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            <tr>
+                                <td>{{ preview.guest.name }}</td>
+                                <td>{{ preview.host.name }}</td>
+                                <td>{{ preview.date }}</td>
+                                <td>{{ preview.match_day }}</td>
+                            </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block content %}
+
+        <main class="main-content">
+            <div class="container-fluid p-0">
+                <div class="card">
+                    <div class="card-body">
+                        <form action="{% url 'add-line' %}" method="post" style="display:flex; justify-content: center" enctype="multipart/form-data">
+                            {% csrf_token %}
+                                <div class="form-group col-2 mt-2">
+                                    <select name="squad" class="form-control select2">
+                                        {% for i in squad %}
+                                            <option value="{{ i.id }}">{{ i.match_day }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-2 form-group mt-2">
+                                    <select class="form-control select2" name="team" multiple>
+                                        {% for i in team %}
+                                            <option value="{{ i.id }}">{{ i.first_name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-2 col-sm-6 col-xl mt-2 d-flex">
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-xl-12">
+                    <div class="card">
+                        <table class="table" style="text-align: center;">
+                            <thead>
+                                <tr>
+                                    <th>Squad</th>
+                                    <th>Players</th>
+                                    <th>Update</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for i in line %}
+                                    <tr>
+                                        <td>{{ i.squad.match_day }}</td>
+                                        <td>{{ i.team.first.first_name }}</td>
+                                        <td class="d-none d-md-table-cell"><a href="{% url 'update-line' i.id %}"><i class="align-middle" data-feather="edit-2"></i></a></td>
+                                        <td><a href="{% url 'delete-line' i.id %}"><button type="submit" data-feather="trash">Delete</button></a></td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+{% endblock %}

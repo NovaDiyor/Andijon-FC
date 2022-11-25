@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'main',
     'api',
+    'bot',
     'rest_framework',
     'rest_framework.authtoken'
 ]
@@ -136,3 +137,6 @@ MEDIA_ROOT = BASE_DIR / 'media/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'main.User'
 
+TOKEN = "5498068148:AAGjrSkT6rCy8pLCHE_IqDr5X941D7YTpa0"
+
+PROXY_URL = "https://telegg.ru/orig/bot"

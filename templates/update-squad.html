@@ -1,0 +1,39 @@
+x`{% extends 'base.html' %}
+{% block content %}
+
+    <main class="main-content">
+         <div class="container-fluid p-0">
+                <div class="card">
+                    <div class="card-body">
+                        <form action="{% url 'update-squad' squad.id %}" method="post"  enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="row"style=" display:flex; justify-content: center">
+                                <div class="col-5 input-group mt-2">
+                                    <select name="game" style="margin-left:20px;" class="form-control select2">
+                                        <option value="{{ squad.game.id }}" selected>{{ squad.game.match_day }}</option>
+                                        {% for i in preview %}
+                                        <option value="{{ i.id }}">{{ i.match_day }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-4 input-group mt-2">
+                                    <select name="team" class="form-control select2" multiple>
+                                        {% for i in squad.team.all %}
+                                        <option value="{{ i.id }}" selected>{{ i.first_name }}</option>
+                                        {% endfor %}
+                                        {% for i in team %}
+                                        <option value="{{ i.id }}">{{ i.first_name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-2 col-sm-6 col-xl mt-2 d-flex" style="height:40px;">
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+    </main>
+
+{% endblock %}

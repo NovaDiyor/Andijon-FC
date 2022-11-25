@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block content %}
+
+        <main class="content">
+            <div class="container-fluid p-0">
+                <form action="{% url 'add-action' %}" method="post" style="margin-bottom: 20px; display:flex; justify-content: center" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="form-group col-2 mt-2">
+                            <select name="which" class="form-control select2">
+                                {% for i in club %}
+                                    <option value="{{ i.id }}">{{ i.which.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-2 col-sm-6 col-xl mt-2 d-flex">
+                            <input type="text" name="who" placeholder="Who" class="form-control" required>
+                        </div>
+                        <div class="form-group col-2 mt-2">
+                            <select name="action" class="form-control select2">
+                                <option value="3">Goal</option>
+                                <option value="1">Yellow Card</option>
+                                <option value="2">Red Card</option>
+                            </select>
+                        </div>
+                         <div class="col-2 col-sm-6 col-xl mt-2 d-flex">
+                            <input type="number" name="minute" placeholder="Minute" class="form-control" required>
+                        </div>
+                        <div class="col-2 col-sm-6 col-xl mt-2 d-flex">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="row">
+                <div class="col-12 col-xl-12">
+                    <div class="card">
+                        <table class="table" style="text-align: center;">
+                            <thead>
+                                <tr>
+                                    <th>Club</th>
+                                    <th>Who</th>
+                                    <th>Action</th>
+                                    <th>Minute</th>
+                                    <th>Update</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for i in action %}
+                                    <tr>
+                                        <td>{{ i.which.name }}</td>
+                                        <td>{{ i.who }}</td>
+                                        <td>{{ i.action }}</td>
+                                        <td>{{ i.minute }}</td>
+                                        <td class="d-none d-md-table-cell"><a href="{% url 'update-action' i.id %}"><i class="align-middle" data-feather="edit-2"></i></a></td>
+                                        <td>
+    										<a href="{% url 'delete-action' i.id %}"><button type="submit" data-toggle="modal" data-target="#sizedModalMd" data-feather="trash">Delete</button></a>
+										</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+{% endblock %}

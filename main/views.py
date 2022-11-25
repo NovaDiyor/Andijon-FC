@@ -206,12 +206,25 @@ def line_view(request):
 
 @login_required(login_url='sign-in')
 def subs_view(request):
-    return render(request, 'subs.html', {'subs': Substitute.objects.all()})
+    context = {
+        'squad': Squad.objects.all(),
+        'line': Line.objects.all(),
+        'subs': Substitute.objects.all()
+    }
+    return render(request, 'subs.html', context)
 
 
 @login_required(login_url='sign-in')
 def game_view(request):
-    return render(request, 'game.html', {'game': Game.objects.all()})
+    context = {
+        'line': Line.objects.all(),
+        'host': Fc.objects.filter(status=1),
+        'guest': Fc.objects.filter(status=2),
+        'passes': Passes.objects.all(),
+        'subs': Substitute.objects.all(),
+        'game': Game.objects.all()
+    }
+    return render(request, 'game.html', context)
 
 
 @login_required(login_url='sign-in')
@@ -322,6 +335,25 @@ def add_stadium(request):
             s.image.add(i)
         return redirect('add-stadium')
     return render(request, 'stadium.html', context)
+
+
+def add_action(request):
+    context = {
+        'action': Action.objects.all(),
+        'club': Fc.objects.all()
+    }
+    if request.method == 'POST':
+        which = request.POST.get('which')
+        who = request.POST.get('who')
+        action = request.POST.get('action')
+        minute = request.POST.get('minute')
+        who = Players.objects.get(last_name__icontains=who)
+        if who is not None:
+            Stadium.objects.create(which_id=which, who_id=who.id, action=action, minute=minute)
+        else:
+            Stadium.objects.create(which_id=which, club_who=who, action=action, minute=minute)
+        return redirect('add-action')
+    return render(request, 'action.html', context)
 
 
 def add_fc(request):
@@ -526,6 +558,13 @@ def add_subs(request):
 
 
 def add_game(request):
+    context = {
+        'game': Game.objects.all(),
+        'action': Action.objects.all(),
+        'pass': Passes.objects.all(),
+        'mvp': Players.objects.all(),
+        'subs': Substitute.objects.all()
+    }
     if request.method == 'POST':
         line = request.POST.get('line')
         goal = request.POST.get('goal')
@@ -550,7 +589,8 @@ def add_game(request):
         )
         for i in subs:
             g.subs.add(i)
-    return redirect('game')
+        return redirect('game')
+    return render(request, 'game.html', context)
 
 
 def add_size(request):
@@ -863,16 +903,30 @@ def update_preview(request, pk):
     preview = Preview.objects.get(id=pk)
     if request.method == 'POST':
         guest = request.POST.get('guest')
+        guest3 = request.POST.get('guest3')
         host = request.POST.get('host')
         date = request.POST.get('date')
         match_day = request.POST.get('match-day')
-        preview.guest = guest
-        preview.host = host
         preview.date = date
+        if guest3 == '1':
+            guest = guest
+            host = host
+        elif guest3 == '2':
+            guest = host
+            host = guest
+
+        guest1 = Fc.objects.get(id=guest)
+        host1 = Fc.objects.get(id=host)
+        preview.guest = guest1
+        preview.host = host1
         preview.match_day = match_day
         preview.save()
         return redirect('preview')
-    return render(request, 'update-preview.html', {'preview': Preview.objects.get(id=pk)})
+    context = {
+        'fc': Fc.objects.all(),
+        'preview': Preview.objects.get(id=pk)
+    }
+    return render(request, 'update-preview.html', context)
 
 
 def update_squad(request, pk):

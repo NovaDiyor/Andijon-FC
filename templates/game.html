@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% block content %}
+
+        <main class="content">
+            <div class="container-fluid p-0">
+                <form action="{% url 'game' %}" method="post" style="display:flex; justify-content: center" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-2 col-sm-6 col-xl mt-2 d-flex">
+                            <input type="text" name="name" placeholder="Name" class="form-control" required>
+                        </div>
+                        <div class="col-2 col-sm-6 col-xl mt-2 d-flex">
+                            <input type="text" name="trainer" placeholder="Trainer" class="form-control" required>
+                        </div>
+                        <div class="col-2 form-group mt-2">
+                            <select class="form-control select2" name="line">
+                                {% for i in line %}
+                                    <option value="{{ i.id }}">{{ i.squad_list.team.first_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-2 form-group mt-2">
+                            <select class="form-control select2" name="host">
+                                {% for i in host %}
+                                    <option value="{{ i.id }}">{{ i.action }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-2 form-group mt-2">
+                            <select class="form-control select2" name="guest">
+                                {% for i in guest %}
+                                    <option value="{{ i.id }}">{{ i.action }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-2 form-group mt-2">
+                            <select class="form-control select2" name="pass" multiple>
+                                {% for i in passes %}
+                                    <option value="{{ i.id }}">{{ i.get_status_display }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-2 form-group mt-2">
+                            <select class="form-control select2" name="subs" multiple>
+                                {% for i in subs %}
+                                    <option value="{{ i.id }}">{{ i.subs.line.team.first_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-2 form-group mt-2">
+                            <select class="form-control select2" name="mvp">
+                                {% for i in line %}
+                                    <option value="{{ i.id }}">{{ i.first_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-2 col-sm-6 col-xl mt-2 d-flex">
+                            <input type="number" name="possession" placeholder="Possession" class="form-control" required>
+                        </div>
+                        <div class="col-2 col-sm-6 col-xl mt-2 d-flex">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="row">
+                <div class="col-12 col-xl-12">
+                    <div class="card">
+                        <table class="table" style="text-align: center;">
+                            <thead>
+                                <tr>
+                                    <th>Line</th>
+                                    <th>Preview</th>
+                                    <th>Host</th>
+                                    <th>Guest</th>
+                                    <th>Possession</th>
+                                    <th>Passes</th>
+                                    <th>Substitute</th>
+                                    <th>Mvp</th>
+                                    <th>Update</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for i in game %}
+                                    <tr>
+                                        <td>{{ i.line.team.first.first_name }}</td>
+                                        <td>{{ i.line.squad_list.game.match_day }}</td>
+                                        <td>{{ i.host.action }}</td>
+                                        <td>{{ i.guest.action }}</td>
+                                        <td>{{ i.possession }}</td>
+                                        <td>{{ i.passes.passes }}</td>
+                                        <td>{{ i.subs.minute }}</td>
+                                        <td>{{ i.mvp.first_name }}</td>
+                                        <td class="d-none d-md-table-cell"><a href="{% url 'update-game' i.id %}"><i class="align-middle" data-feather="edit-2"></i></a></td>
+                                        <td><a href="{% url 'delete-game' i.id %}"><button type="submit" data-toggle="modal" data-target="#sizedModalMd" data-feather="trash">Delete</button></a></td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+{% endblock %}

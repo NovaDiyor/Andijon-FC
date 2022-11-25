@@ -139,21 +139,20 @@ class Substitute(models.Model):
 
 class Action(models.Model):
     which = models.ForeignKey(Fc, on_delete=models.CASCADE)
-    who = models.ForeignKey(Line, on_delete=models.CASCADE)
-    club_who = models.CharField(max_length=210)
-    goal = models.BooleanField(default=False)
-    action = models.IntegerField(choices=((1, 'yellow-card'), (2, 'red-card')), null=True, blank=True)
+    who = models.ForeignKey(Players, on_delete=models.CASCADE)
+    club_who = models.CharField(max_length=215)
+    action = models.IntegerField(choices=((1, 'yellow-card'), (2, 'red-card'), (3, 'goal')))
     minute = models.IntegerField()
 
 
 class Game(models.Model):
-    line = models.ForeignKey(Line, on_delete=models.CASCADE)
+    line = models.ForeignKey(Line, on_delete=models.CASCADE, related_name='line')
     guest_action = models.ManyToManyField(Action, related_name='guest')
     host_action = models.ManyToManyField(Action, related_name='host')
-    passion = models.FloatField()
+    possession = models.FloatField()
     passes = models.ManyToManyField(Passes)
     subs = models.ManyToManyField(Substitute, null=True, blank=True)
-    mvp = models.ForeignKey(Players, on_delete=models.CASCADE)
+    mvp = models.ForeignKey(Line, on_delete=models.CASCADE, related_name='mvp')
 
 
 class Size(models.Model):
@@ -214,3 +213,18 @@ class Order(models.Model):
     email = models.EmailField()
     region = models.ForeignKey(Region, on_delete=models.CASCADE)
     city = models.CharField(max_length=210)
+    status = models.IntegerField(choices=(
+        (0, 'accepted'),
+        (1, 'preparing'),
+        (2, 'finished'),
+    ), default=0)
+
+
+class Chat(models.Model):
+    chat_id = models.CharField(max_length=1000)
+
+
+class Telegram(models.Model):
+    bot_token = models.CharField(max_length=1000)
+    chat_id = models.ManyToManyField(Chat)
+

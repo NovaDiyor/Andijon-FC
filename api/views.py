@@ -11,7 +11,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework import generics
-
+from bot.main import *
 
 @api_view(['POST'])
 def Register(request):
@@ -175,9 +175,12 @@ def OrderItemCreate(request, pk):
 
 # order create
 @api_view(['POST'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def OrderCreate(request):
     order = request.POST.getlist('order')
     user = request.user
+    users = User.objects.get(id=user.id)
     name = request.POST.get('name')
     surname = request.POST.get('surname')
     phone_number = request.POST.get('phone_number')
@@ -186,13 +189,19 @@ def OrderCreate(request):
     email = request.POST.get('email')
     region = request.POST.get('region')
     city = request.POST.get('city')
-    create = Order.objects.create(user=user, name=name, surname=surname, phone_number=phone_number, address=address,
+    create = Order.objects.create(user=users, name=name, surname=surname, phone_number=phone_number, address=address,
                          postal_code=postal_code, email=email, region_id=region, city=city)
 
     for i in order:
         create.order_item.add(OrderItem.objects.get(id=i))
-
+    tg = Telegram.objects.last()
+    for i in tg.chat_id.all():
+        if i.type == 0:
+            SendMessage(tg.bot_token, i.chat_id, create.name, create.surname, create.phone_number, create.address, create.postal_code, create.email, create.region.name, create.city)
+        else:
+            pass
     return Response('Siz Sotib oldingiz adminlar siz bilan bog`lanadi')
+
 
 # game
 @api_view(['GET'])
